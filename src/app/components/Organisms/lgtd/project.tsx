@@ -6,8 +6,8 @@ import LabelItemSmall from "../../Atoms/Lable/LabelItemSmall";
 import { LockOpenIcon, BookmarkSlashIcon } from "@heroicons/react/24/outline";
 import { typeproject } from "@/app/model/lgtd/projects.type";
 import EditModalButton from "@/app/components/Molecules/EditModalButton";
-import FormEditProject from "./FormEditProject";
 import { ButtonOverMouse } from "../../Atoms/Button/ButtonOverMouse";
+import EditProject from "./EditProject";
 // import { ButtonToThing } from "@/app/components/Atoms/Button/ButtonToThing";
 
 type Props = {
@@ -21,9 +21,9 @@ const Project = (props: any) => {
     <div key={project.title}>
       <div className="relative group border rounded-lg  border-gray-500 m-1 ">
         <ButtonOverMouse>
-          <EditModalButton title={project.title}>
-            <FormEditProject project={project} />
-          </EditModalButton>
+          {/* <EditModalButton title={project.title}>
+            <EditProject project={project} />
+          </EditModalButton> */}
         </ButtonOverMouse>
 
         <div className="flex">

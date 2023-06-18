@@ -1,25 +1,33 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import LabelItemName from "../../Atoms/Lable/LabelItemName";
-import LabelItemSmall from "../../Atoms/Lable/LabelItemSmall";
-import LabelItemSub from "../../Atoms/Lable/LabelItemSmall";
+import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
+import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
+import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import { Bars4Icon } from "@heroicons/react/24/outline";
-import { ButtonOverMouse } from "../../Atoms/Button/ButtonOverMouse";
-import EditModalButton from "../../Molecules/EditModalButton";
-import FormEditTask from "./FormEditTask";
-import { typetask } from "@/app/model/lgtd/projects.type";
+import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
+import EditModalButton from "@/app/components/Molecules/EditModalButton";
+import EditTask from "./EditTask";
+import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
+import { useState } from "react";
 
 type Props = {
   task: typetask;
+  projects: typeproject[];
 };
 export function SortableTask(props: Props) {
-  const { task } = props;
+  let [isOpen, setIsOpen] = useState(false);
+  const { task, projects } = props;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: task.id });
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const onSubmit = () => {
+    console.log(`onsbumit:${task.id}`);
+  };
+
   // console.log(props);
   return (
     <div
@@ -28,8 +36,17 @@ export function SortableTask(props: Props) {
       style={style}
     >
       <ButtonOverMouse>
-        <EditModalButton title={task.title}>
-          <FormEditTask task={task} />
+        <EditModalButton
+          onSubmit={() => onSubmit()}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        >
+          <EditTask
+            task={task}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            projects={projects}
+          />
         </EditModalButton>
       </ButtonOverMouse>
       <div className="flex">

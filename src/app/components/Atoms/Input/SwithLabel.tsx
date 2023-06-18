@@ -1,14 +1,10 @@
 "user client";
-import React, { Fragment, useState } from "react";
-import { Combobox, Listbox, Switch, Transition } from "@headlessui/react";
-import { typeproject } from "@/app/model/lgtd/projects.type";
-import ButtonPrimary from "../../Atoms/Button/ButtonPrimary";
-import LabelInputTitle from "../../Atoms/Lable/LabelInputTitle";
-import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import React from "react";
+import { Switch } from "@headlessui/react";
 
 type Props = {
-  checked: any;
-  onChange: any;
+  checked: boolean;
+  onChange: (arg0: boolean) => void;
   children: any;
 };
 

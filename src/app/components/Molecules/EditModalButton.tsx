@@ -3,16 +3,18 @@
 import React, { Fragment, useState } from "react";
 import { DocumentTextIcon } from "@heroicons/react/24/outline";
 import { Dialog, Transition } from "@headlessui/react";
+import ButtonPrimary from "../Atoms/Button/ButtonPrimary";
 
 type Props = {
-  title: string;
   children: any;
+  onSubmit: () => void;
+  isOpen: boolean;
+  setIsOpen: (arg0: boolean) => void;
 };
 
 const EditModalButton = (props: Props) => {
-  const { title, children } = props;
+  const { children, onSubmit, isOpen, setIsOpen } = props;
 
-  let [isOpen, setIsOpen] = useState(false);
   function closeModal() {
     setIsOpen(false);
   }
@@ -57,9 +59,7 @@ const EditModalButton = (props: Props) => {
                   <Dialog.Title
                     as="h3"
                     className="text-lg font-medium leading-6 text-gray-900"
-                  >
-                    {title}
-                  </Dialog.Title>
+                  ></Dialog.Title>
                   {children}
                 </Dialog.Panel>
               </Transition.Child>

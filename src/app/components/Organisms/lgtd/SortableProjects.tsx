@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -10,17 +10,25 @@ import { SortableProject } from "./SortableProject";
 
 type Props = {
   projects: typeproject[];
+  setProjects: Dispatch<any>;
+  thisProjectId: number;
+  setThisProjectId: Dispatch<any>;
 };
 
 export default function SortableProjects(props: Props) {
-  const [projects, setProjects] = useState(props.projects);
+  const { projects, setProjects, thisProjectId, setThisProjectId } = props;
+
+  // console.log("props.projects");
+  // console.log(props.projects);
+  // console.log("projects");
+  // console.log(projects);
 
   function handleDragEnd(event: any) {
-    // console.log("drag and called");// console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+    console.log("SortableProjects-drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
     const { active, over } = event;
 
     if (active.id !== over.id) {
-      setProjects((preProjects: any) => {
+      setProjects((preProjects: any[]) => {
         // console.log(`pretasks`);
         // console.log({ pretasks });
         // const activeIndex = pretasks.indexOf(active.id);
@@ -50,8 +58,13 @@ export default function SortableProjects(props: Props) {
             items={projects}
             strategy={verticalListSortingStrategy}
           >
-            {projects.map((task: { id: number }) => (
-              <SortableProject key={task.id} project={task} />
+            {projects.map((project) => (
+              <SortableProject
+                key={project.id}
+                project={project}
+                thisProjectId={thisProjectId}
+                setThisProjectId={setThisProjectId}
+              />
             ))}
           </SortableContext>
         </div>

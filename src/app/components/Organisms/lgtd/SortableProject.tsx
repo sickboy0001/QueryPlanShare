@@ -1,35 +1,63 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import LabelItemName from "../../Atoms/Lable/LabelItemName";
-import LabelItemSmall from "../../Atoms/Lable/LabelItemSmall";
-import LabelItemSub from "../../Atoms/Lable/LabelItemSmall";
+import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
+import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
+import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import {
   Bars4Icon,
   BookmarkSlashIcon,
   LockOpenIcon,
 } from "@heroicons/react/24/outline";
-import { ButtonOverMouse } from "../../Atoms/Button/ButtonOverMouse";
-import EditModalButton from "../../Molecules/EditModalButton";
-import FormEditProject from "./FormEditProject";
+import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
+import EditModalButton from "@/app/components/Molecules/EditModalButton";
+import EditProject from "./EditProject";
+import { Dispatch, useState } from "react";
+import { typeproject } from "@/app/model/lgtd/projects.type";
 
-export function SortableProject(props: any) {
-  const { project } = props;
+type Props = {
+  project: typeproject;
+  thisProjectId: number;
+  setThisProjectId: Dispatch<any>;
+};
+
+export function SortableProject(props: Props) {
+  const { project, thisProjectId, setThisProjectId } = props;
+  let [isOpen, setIsOpen] = useState(false);
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: project.id });
+
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
+
+  const onSelectProject = (id: number) => {
+    setThisProjectId(id);
+  };
+  const onSubmit = () => {
+    console.log(`onsbumit:${project.id}`);
+  };
+
   // console.log(props);
   return (
     <div
       className="border rounded-lg  border-gray-500 m-1 relative group"
       ref={setNodeRef}
       style={style}
+      onClick={() => onSelectProject(project.id)}
     >
       <ButtonOverMouse>
-        <EditModalButton title={project.title}>
-          <FormEditProject project={project} />
+        <EditModalButton
+          onSubmit={() => onSubmit()}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        >
+          <EditProject
+            project={project}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+          />
         </EditModalButton>
       </ButtonOverMouse>
 
@@ -58,7 +86,7 @@ export function SortableProject(props: any) {
             )}
           </LabelItemSmall>
           <LabelItemSmall>
-            {project.is_archived ? (
+            {project.is_archive ? (
               <div>
                 <title>archive</title>
                 <BookmarkSlashIcon className="inline-block w-5 h-5 mr-1" />
