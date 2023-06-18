@@ -1,7 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getAllGoodThings } from "@/app/bizlogic/goodthings";
-import Projects from "@/app/components/Organisms/lgtd/projects";
 import ProjectTasks from "@/app/components/Organisms/lgtd/projectTasks";
 
 import useStore from "@/store";

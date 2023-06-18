@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, useState } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -6,21 +6,26 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { SortableTask } from "./SortableTask";
-import { typetask } from "@/app/model/lgtd/projects.type";
+import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
+import SubTitle from "@/app/components/Atoms/Lable/Title";
+import LabelItemName from "../../Atoms/Lable/LabelItemName";
 
 type Props = {
+  selectedProject: typeproject | undefined;
+  projects: typeproject[];
   tasks: typetask[];
+  setTasks: Dispatch<any>;
 };
-export default function SoratableTasks(props: Props) {
-  // const {tasks}=props;
 
-  const containers = ["Java", "Python", "TypeScript"];
-  const [tasks, setTasks] = useState(props.tasks);
+export default function SoratableTasks(props: Props) {
+  const { selectedProject, projects, tasks, setTasks } = props;
 
   function handleDragEnd(event: any) {
-    // console.log("drag and called");// console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
     const { active, over } = event;
 
+    console.log(
+      `tasks drag and called active.id ${active.id} over.id ${over.id}`
+    ); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
     if (active.id !== over.id) {
       setTasks((pretasks: any) => {
         // console.log(`pretasks`);
@@ -38,19 +43,34 @@ export default function SoratableTasks(props: Props) {
         // console.log(`thisactiveIndex:${activeIndex}`);
         // console.log(`thisoverindex:${overindex}`);
         // console.log(arrayMove(pretasks, activeIndex, overindex));
+
         //配列の移動　activeIndex　移動元番号, overindex　移動先番号
         return arrayMove(pretasks, activeIndex, overindex);
       });
     }
   }
 
+  // console.log(selectedProject);
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      // modifiers={[restrictToVerticalAxis]}
+    >
+      {selectedProject !== undefined ? (
+        <div>
+          <LabelItemName>
+            {selectedProject.title} [{selectedProject.id.toString()}]
+          </LabelItemName>
+        </div>
+      ) : (
+        ""
+      )}
       <div className="flex flex-col w-full ">
         <div className="text-lg font-extrabold text-center">
           <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
             {tasks.map((task) => (
-              <SortableTask key={task.id} task={task} />
+              <SortableTask key={task.id} task={task} projects={projects} />
             ))}
           </SortableContext>
         </div>

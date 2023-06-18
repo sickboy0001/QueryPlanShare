@@ -16,21 +16,15 @@ function GoodThings() {
 
   useEffect(() => {
     const getGoodThings = async () => {
-      // console.log(goodThings);
-      // console.log(`getGoodThings userId:${userId}`);
-      // const this_userid = await getUserIdOrGuestID();
       const this_userid = user.id
         ? user.id
         : guest_user_id
         ? guest_user_id
         : ""; //guest_user_id === undefined ? "" : guest_user_id;
-      // console.log(`getGoodThings this_userid:start:${this_userid}`);
       const newGoodThings = await getAllGoodThings(this_userid);
-      // console.log(`getGoodThings this_userid:start:${this_userid}`);
       setUserId(this_userid);
       setGoodThings(newGoodThings);
     };
-
     getGoodThings();
   }, [user]);
 
