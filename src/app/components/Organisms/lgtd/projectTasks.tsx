@@ -108,6 +108,7 @@ const ProjectTasks = (props: any) => {
               projects={projects}
               tasks={tasks}
               setTasks={() => setTasks}
+              setThisProjectId={setThisProjectId}
             />
           </div>
         </div>

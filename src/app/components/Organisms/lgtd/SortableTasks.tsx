@@ -15,10 +15,12 @@ type Props = {
   projects: typeproject[];
   tasks: typetask[];
   setTasks: Dispatch<any>;
+  setThisProjectId: Dispatch<any>;
 };
 
 export default function SoratableTasks(props: Props) {
-  const { selectedProject, projects, tasks, setTasks } = props;
+  const { selectedProject, projects, tasks, setTasks, setThisProjectId } =
+    props;
 
   function handleDragEnd(event: any) {
     const { active, over } = event;
@@ -70,7 +72,12 @@ export default function SoratableTasks(props: Props) {
         <div className="text-lg font-extrabold text-center">
           <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
             {tasks.map((task) => (
-              <SortableTask key={task.id} task={task} projects={projects} />
+              <SortableTask
+                key={task.id}
+                task={task}
+                projects={projects}
+                setThisProjectId={setThisProjectId}
+              />
             ))}
           </SortableContext>
         </div>

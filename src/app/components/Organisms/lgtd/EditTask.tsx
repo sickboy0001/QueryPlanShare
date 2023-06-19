@@ -1,5 +1,5 @@
 "user client";
-import React, { Fragment, useState } from "react";
+import React, { Dispatch, Fragment, useState } from "react";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import ButtonPrimary from "../../Atoms/Button/ButtonPrimary";
 import LabelInputTitle from "../../Atoms/Lable/LabelInputTitle";
@@ -13,35 +13,30 @@ type Props = {
   isOpen: boolean;
   setIsOpen: (arg0: boolean) => void;
   projects: typeproject[];
+  setThisProjectId: Dispatch<any>;
 };
 
-const people = [
-  { id: 1, name: "Durward Reynolds", unavailable: false },
-  { id: 2, name: "Kenton Towne", unavailable: false },
-  { id: 3, name: "Therese Wunsch", unavailable: false },
-  { id: 4, name: "Benedict Kessler", unavailable: true },
-  { id: 5, name: "Katelyn Rohan", unavailable: false },
-];
-
 const EditTask = (props: Props) => {
-  const { task, isOpen, setIsOpen } = props;
+  const { task, isOpen, setIsOpen, projects, setThisProjectId } = props;
   const [archiveEnabled, setArchiveEnabled] = useState(false);
   const [publicEnabled, setPublicEnabled] = useState(false);
   const [title, setTitle] = useState(task.title);
   const [detail, setDetail] = useState(task.detail);
   const [actionPlan, setActionPlan] = useState(task.action_plan);
   const [review, setReview] = useState(task.review);
-
-  const [selected, setSelected] = useState(people[0]);
+  const [selected, setSelected] = useState(projects[0]);
 
   // 送信
   const onSubmit = () => {
+    // todo setxxx使う必要あり？
+    task.project_id = selected.id;
     task.title = title;
     task.detail = detail;
     task.action_plan = actionPlan;
     task.review = review;
 
     setIsOpen(false);
+    setThisProjectId(task.project_id);
   };
 
   return (
@@ -53,9 +48,9 @@ const EditTask = (props: Props) => {
         </div>
         <div className="md:w-3/4">
           <ListBoxIdName
-            list={people}
+            list={projects}
             selected={selected}
-            setSelected={() => setSelected}
+            setSelected={setSelected}
           />
         </div>
       </div>

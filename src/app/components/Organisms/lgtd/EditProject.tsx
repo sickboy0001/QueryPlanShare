@@ -14,14 +14,18 @@ type Props = {
 
 const EditProject = (props: Props) => {
   const { project, isOpen, setIsOpen } = props;
-  const [archiveEnabled, setArchiveEnabled] = useState(false);
-  const [publicEnabled, setPublicEnabled] = useState(false);
   const [title, setTitle] = useState(project.title);
   const [description, setDescription] = useState(project.description);
+  const [archiveEnabled, setArchiveEnabled] = useState(false);
+  const [publicEnabled, setPublicEnabled] = useState(false);
 
   const onSubmit = () => {
-    console.log(`FormEditProject_onsbumit:${project.id}`);
-    console.log(`FormEditProject_title:${title}`);
+    // todo setxxx使う必要あり？
+    project.title = title;
+    project.description = description;
+    project.is_archive = archiveEnabled;
+    project.is_public = publicEnabled;
+
     setIsOpen(false);
   };
 

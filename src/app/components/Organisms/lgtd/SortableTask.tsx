@@ -8,15 +8,16 @@ import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
 import EditModalButton from "@/app/components/Molecules/EditModalButton";
 import EditTask from "./EditTask";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 
 type Props = {
   task: typetask;
   projects: typeproject[];
+  setThisProjectId: Dispatch<any>;
 };
 export function SortableTask(props: Props) {
   let [isOpen, setIsOpen] = useState(false);
-  const { task, projects } = props;
+  const { task, projects, setThisProjectId } = props;
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: task.id });
   const style = {
@@ -46,6 +47,7 @@ export function SortableTask(props: Props) {
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             projects={projects}
+            setThisProjectId={setThisProjectId}
           />
         </EditModalButton>
       </ButtonOverMouse>
