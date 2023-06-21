@@ -58,9 +58,6 @@ function LabelNowThing(props: Props) {
   return (
     <>
       {!isWriteThing ? (
-        // <div className={labelClass} onClick={() => handleEditStart()}>
-        //   {children}
-        // </div>
         <LabelThing
           onClick={() => {
             handleEditStart;

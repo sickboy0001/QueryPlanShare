@@ -10,7 +10,6 @@ type Props = {
 
 function TextAreaDirectInput(props: Props) {
   const { value, setValue, handleBlur, textareaRef } = props;
-
   const textAreaClass = classNames(
     "block",
     "p-1",

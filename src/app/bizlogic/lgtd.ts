@@ -15,3 +15,11 @@ export const  getProjectTasks = async (user_id: string , project_id :number) => 
 export const  getAllTasks = async (user_id: string) => {
     return sampleTasks;
 };
+
+export const addNewProject = async (user_id:string , newvalue:string)=>{
+
+
+}
+export const addNewTask = async (user_id:string , newvalue:string , project_id:number)=>{
+
+}
