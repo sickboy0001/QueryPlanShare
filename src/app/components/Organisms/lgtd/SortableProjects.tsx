@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect, useState } from "react";
+import React, { Dispatch } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   arrayMove,
@@ -6,7 +6,6 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { typeproject } from "@/app/model/lgtd/projects.type";
-import { SortableProject } from "./SortableProject";
 import { ThisProject } from "./ThisProject";
 
 type Props = {

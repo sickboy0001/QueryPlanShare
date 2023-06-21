@@ -1,19 +1,23 @@
+import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
-import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
-import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import {
   Bars4Icon,
   BookmarkSlashIcon,
   LockOpenIcon,
 } from "@heroicons/react/24/outline";
-import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
-import EditModalButton from "@/app/components/Molecules/EditModalButton";
-import EditProject from "./EditProject";
-import { Dispatch, useEffect, useRef, useState } from "react";
+
 import { typeproject } from "@/app/model/lgtd/projects.type";
-import InputText from "../../Atoms/Input/InputText";
+
+import EditProject from "./EditProject";
+
+import EditModalButton from "@/app/components/Molecules/EditModalButton";
+
+import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
+import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
+import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
+import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
+import InputText from "@/app/components/Atoms/Input/InputText";
 
 type Props = {
   project: typeproject;

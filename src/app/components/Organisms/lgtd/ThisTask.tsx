@@ -1,15 +1,20 @@
+import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+
+import { Bars4Icon } from "@heroicons/react/24/outline";
+
+import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
+
+import EditTask from "./EditTask";
+
+import EditModalButton from "@/app/components/Molecules/EditModalButton";
+
+import InputText from "@/app/components/Atoms/Input/InputText";
 import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
 import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
 import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
-import { Bars4Icon } from "@heroicons/react/24/outline";
 import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
-import EditModalButton from "@/app/components/Molecules/EditModalButton";
-import EditTask from "./EditTask";
-import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
-import { Dispatch, useEffect, useRef, useState } from "react";
-import InputText from "../../Atoms/Input/InputText";
 
 type Props = {
   task: typetask;

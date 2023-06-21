@@ -1,13 +1,11 @@
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import { SortableTask } from "./SortableTask";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
-import SubTitle from "@/app/components/Atoms/Lable/Title";
 import LabelItemName from "../../Atoms/Lable/LabelItemName";
 import { ThisTask } from "./ThisTask";
 
