@@ -9,6 +9,7 @@ import { SortableTask } from "./SortableTask";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import SubTitle from "@/app/components/Atoms/Lable/Title";
 import LabelItemName from "../../Atoms/Lable/LabelItemName";
+import { ThisTask } from "./ThisTask";
 
 type Props = {
   selectedProject: typeproject | undefined;
@@ -70,9 +71,19 @@ export default function SoratableTasks(props: Props) {
       )}
       <div className="flex flex-col w-full ">
         <div className="text-lg font-extrabold text-center">
-          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+          {/* <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
             {tasks.map((task) => (
               <SortableTask
+                key={task.id}
+                task={task}
+                projects={projects}
+                setThisProjectId={setThisProjectId}
+              />
+            ))}
+          </SortableContext> */}
+          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
+            {tasks.map((task) => (
+              <ThisTask
                 key={task.id}
                 task={task}
                 projects={projects}

@@ -6,6 +6,8 @@ import { DndContext, closestCenter } from "@dnd-kit/core";
 
 import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
+import ListTasks from "./ListTasks";
+import ListProjects from "./ListProjects";
 
 const ProjectTasks = (props: any) => {
   const [userId, setUserId] = useState("");
@@ -95,7 +97,7 @@ const ProjectTasks = (props: any) => {
         </div> */}
         <div className="grid grid-cols-4">
           <div>
-            <SortableProjects
+            <ListProjects
               projects={projects}
               setProjects={setProjects}
               thisProjectId={thisProjectId}
@@ -103,11 +105,11 @@ const ProjectTasks = (props: any) => {
             />
           </div>
           <div className="col-span-3">
-            <SortableTasks
+            <ListTasks
               selectedProject={selectedProject}
               projects={projects}
               tasks={tasks}
-              setTasks={() => setTasks}
+              setTasks={setTasks}
               setThisProjectId={setThisProjectId}
             />
           </div>

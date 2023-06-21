@@ -7,6 +7,7 @@ import {
 } from "@dnd-kit/sortable";
 import { typeproject } from "@/app/model/lgtd/projects.type";
 import { SortableProject } from "./SortableProject";
+import { ThisProject } from "./ThisProject";
 
 type Props = {
   projects: typeproject[];
@@ -59,7 +60,7 @@ export default function SortableProjects(props: Props) {
             strategy={verticalListSortingStrategy}
           >
             {projects.map((project) => (
-              <SortableProject
+              <ThisProject
                 key={project.id}
                 project={project}
                 thisProjectId={thisProjectId}
