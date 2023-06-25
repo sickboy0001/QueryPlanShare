@@ -1,13 +1,17 @@
 "user client";
 import React, { useEffect, useState } from "react";
-import SortableTasks from "./SortableTasks";
-import SortableProjects from "./SortableProjects";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragOverlay,
+  closestCenter,
+  pointerWithin,
+} from "@dnd-kit/core";
 
 import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import ListTasks from "./ListTasks";
 import ListProjects from "./ListProjects";
+import SampleDnd2 from "./SampleDnd2";
 
 const ProjectTasks = (props: any) => {
   const [userId, setUserId] = useState("");
@@ -17,6 +21,7 @@ const ProjectTasks = (props: any) => {
   const [selectedProject, setSelectedProject] = useState<
     typeproject | undefined
   >(undefined);
+  const [activeId, setActiveId] = useState(null);
 
   useEffect(() => {
     const getpProjects = async () => {
@@ -68,6 +73,20 @@ const ProjectTasks = (props: any) => {
     console.log("ProjectTasks_drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
     const { active, over } = event;
 
+    //ドラッグしたリソースのid
+    const id = active.id.toString();
+    //ドロップした場所にあったリソースのid
+    const overId = over?.id;
+    console.log(`ProjectTasks_drag active:${id} over:${overId.toString()}`);
+    console.log(active);
+    console.log(over);
+    if (!overId) return;
+
+    // ドラッグ、ドロップ時のコンテナ取得
+    // container1,container2,container3,container4のいずれかを持つ
+    // const activeContainer = findContainer(id);
+    // const overContainer = findContainer(over?.id);
+
     if (active.id !== over.id) {
       //   setProjects((preProjects: any) => {
       //     //順番の入手：連想配列内の特定の項目が対象の場合はfindIndexを利用する。
@@ -85,36 +104,26 @@ const ProjectTasks = (props: any) => {
 
   return (
     <div>
-      <DndContext
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-        // collisionDetection={customCollisionDetectionAlgorithm}
-      >
-        {/* <div>
-          {projects.map((proj, index) => {
-            return <div key={index}>{proj.id}</div>;
-          })}
-        </div> */}
-        <div className="grid grid-cols-4">
-          <div>
-            <ListProjects
-              projects={projects}
-              setProjects={setProjects}
-              thisProjectId={thisProjectId}
-              setThisProjectId={setThisProjectId}
-            />
-          </div>
-          <div className="col-span-3">
-            <ListTasks
-              selectedProject={selectedProject}
-              projects={projects}
-              tasks={tasks}
-              setTasks={setTasks}
-              setThisProjectId={setThisProjectId}
-            />
-          </div>
+      <SampleDnd2 />
+      <div className="grid grid-cols-4">
+        <div>
+          <ListProjects
+            projects={projects}
+            setProjects={setProjects}
+            thisProjectId={thisProjectId}
+            setThisProjectId={setThisProjectId}
+          />
         </div>
-      </DndContext>
+        <div className="col-span-3">
+          <ListTasks
+            selectedProject={selectedProject}
+            projects={projects}
+            tasks={tasks}
+            setTasks={setTasks}
+            setThisProjectId={setThisProjectId}
+          />
+        </div>
+      </div>
     </div>
   );
 };

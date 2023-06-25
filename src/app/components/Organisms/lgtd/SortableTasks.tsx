@@ -2,6 +2,7 @@ import React, { Dispatch } from "react";
 import { DndContext, closestCenter } from "@dnd-kit/core";
 import {
   arrayMove,
+  rectSortingStrategy,
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
@@ -24,10 +25,13 @@ export default function SoratableTasks(props: Props) {
   function handleDragEnd(event: any) {
     const { active, over } = event;
 
-    console.log(
-      `tasks drag and called active.id ${active.id} over.id ${over.id}`
-    ); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
-    if (active.id !== over.id) {
+    // console.log(
+    //   `tasks drag and called active.id ${active.id} over.id ${over.id}`
+    // ); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+    if (active != null && over != null && active.id !== over.id) {
+      console.log(
+        `tasks drag and called active.id ${active.id} over.id ${over.id}`
+      ); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
       setTasks((pretasks: any) => {
         // console.log(`pretasks`);
         // console.log({ pretasks });
@@ -53,42 +57,30 @@ export default function SoratableTasks(props: Props) {
 
   // console.log(selectedProject);
   return (
-    <DndContext
-      collisionDetection={closestCenter}
-      onDragEnd={handleDragEnd}
-      // modifiers={[restrictToVerticalAxis]}
-    >
-      {selectedProject !== undefined ? (
-        <div>
-          <LabelItemName>
-            {selectedProject.title} [{selectedProject.id.toString()}]
-          </LabelItemName>
-        </div>
-      ) : (
-        ""
-      )}
-      <div className="flex flex-col w-full ">
-        <div className="text-lg font-extrabold text-center">
-          {/* <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
-            {tasks.map((task) => (
-              <SortableTask
-                key={task.id}
-                task={task}
-                projects={projects}
-                setThisProjectId={setThisProjectId}
-              />
-            ))}
-          </SortableContext> */}
-          <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
-            {tasks.map((task) => (
-              <ThisTask
-                key={task.id}
-                task={task}
-                projects={projects}
-                setThisProjectId={setThisProjectId}
-              />
-            ))}
-          </SortableContext>
+    <DndContext onDragEnd={handleDragEnd}>
+      <div>
+        {selectedProject !== undefined ? (
+          <div>
+            <LabelItemName>
+              {selectedProject.title} [{selectedProject.id.toString()}]
+            </LabelItemName>
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="flex flex-col w-full ">
+          <div className="text-lg font-extrabold text-center">
+            <SortableContext items={tasks} strategy={rectSortingStrategy}>
+              {tasks.map((task) => (
+                <ThisTask
+                  key={task.id}
+                  task={task}
+                  projects={projects}
+                  setThisProjectId={setThisProjectId}
+                />
+              ))}
+            </SortableContext>
+          </div>
         </div>
       </div>
     </DndContext>

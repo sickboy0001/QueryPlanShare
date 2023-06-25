@@ -1,8 +1,11 @@
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-
-import { Bars4Icon } from "@heroicons/react/24/outline";
+// --arrows-up-down
+import {
+  ArrowsUpDownIcon,
+  ArrowSmallLeftIcon,
+} from "@heroicons/react/24/outline";
 
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 
@@ -15,6 +18,7 @@ import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
 import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
 import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
+import { ThisTaskToProject } from "./ThisTaskToPorject";
 
 type Props = {
   task: typetask;
@@ -32,6 +36,7 @@ export function ThisTask(props: Props) {
   const [title, setTitle] = useState(task.title);
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: task.id });
+
   const sortableTaskStyle = {
     transform: CSS.Transform.toString(transform),
     transition,
@@ -99,35 +104,38 @@ export function ThisTask(props: Props) {
         </EditModalButton>
       </ButtonOverMouse>
       <div className="flex">
-        <div className="flex  w-full bg-red-300">
-          <LabelItemName>
-            <div className="flex flex-row items-center w-full ">
-              <div className="flex-none " {...attributes} {...listeners}>
-                <Bars4Icon className="inline-block w-5 h-5 mr-1" />
+        <div className="flex   w-full">
+          {/* <ThisTaskToProject key={task.id} id={task.id}>
+            <ArrowSmallLeftIcon className="inline-block w-5 h-5 mr-1" />
+          </ThisTaskToProject> */}
+          <div className="flex-none " {...attributes} {...listeners}>
+            <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" />
+          </div>
+          <div className="grow  ">
+            {!isWriteThing ? (
+              <LabelItemName>
+                <div className="text-left " onClick={handleEditStart}>
+                  {title}
+                </div>
+              </LabelItemName>
+            ) : (
+              <div>
+                <InputText
+                  setValue={setTitle}
+                  handleBlur={handleBlur}
+                  value={title}
+                  textareaRef={textareaRef}
+                ></InputText>
               </div>
-              <div className="flex-auto w-full bg-red-200">
-                {!isWriteThing ? (
-                  <div onClick={handleEditStart}>{title}</div>
-                ) : (
-                  <div>
-                    <InputText
-                      setValue={setTitle}
-                      handleBlur={handleBlur}
-                      value={title}
-                      textareaRef={textareaRef}
-                    ></InputText>
-                  </div>
-                )}
-              </div>
-            </div>
-          </LabelItemName>
+            )}
+          </div>
         </div>
         <div className="flex justify-end">
           <LabelItemSmall>{task.state}</LabelItemSmall>
           {/* <LabelItemSmall>{task.import}</LabelItemSmall> */}
         </div>
       </div>
-      <div className="flex">
+      <div className="flex text-left">
         <LabelItemSub>{task.detail}</LabelItemSub>
       </div>
     </div>

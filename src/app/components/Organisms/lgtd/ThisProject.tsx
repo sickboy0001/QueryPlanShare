@@ -2,6 +2,7 @@ import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
+  ArrowsUpDownIcon,
   Bars4Icon,
   BookmarkSlashIcon,
   LockOpenIcon,
@@ -108,25 +109,27 @@ export function ThisProject(props: Props) {
 
       <div className="flex">
         <div className="flex  w-full">
-          <LabelItemName>
-            <div className="flex flex-row items-center">
-              <div className="flex " {...attributes} {...listeners}>
-                <Bars4Icon className="inline-block w-5 h-5 mr-1" />
-              </div>
-              {!isWriteThing ? (
-                <div onClick={handleEditStart}>{title}</div>
-              ) : (
-                <div>
-                  <InputText
-                    setValue={setTitle}
-                    handleBlur={handleBlur}
-                    value={title}
-                    textareaRef={textareaRef}
-                  ></InputText>
+          <div className="flex-none " {...attributes} {...listeners}>
+            <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" />
+          </div>
+          <div className="grow">
+            {!isWriteThing ? (
+              <LabelItemName>
+                <div className="text-left " onClick={handleEditStart}>
+                  {title}
                 </div>
-              )}
-            </div>
-          </LabelItemName>
+              </LabelItemName>
+            ) : (
+              <div>
+                <InputText
+                  setValue={setTitle}
+                  handleBlur={handleBlur}
+                  value={title}
+                  textareaRef={textareaRef}
+                ></InputText>
+              </div>
+            )}
+          </div>
         </div>
         <div className="flex ">
           <LabelItemSmall>{project.state}</LabelItemSmall>
@@ -153,7 +156,7 @@ export function ThisProject(props: Props) {
           </LabelItemSmall>
         </div>
       </div>
-      <div className="flex">
+      <div className="flex text-left">
         <LabelItemSub>{project.description}</LabelItemSub>
       </div>
     </div>

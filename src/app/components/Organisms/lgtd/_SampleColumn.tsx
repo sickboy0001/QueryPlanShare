@@ -1,13 +1,13 @@
 import { FC } from "react";
 import { SortableContext, rectSortingStrategy } from "@dnd-kit/sortable";
 import { useDroppable } from "@dnd-kit/core";
-import Card, { CardType } from "./SampleCard";
+// import Card, { CardType } from "./_SampleCard";
 
 export type ColumnType = {
   id: string;
   title: string;
   type: string;
-  cards: CardType[];
+  cards: any;
 };
 
 const Column: FC<ColumnType> = ({ id, title, cards }) => {
@@ -34,14 +34,9 @@ const Column: FC<ColumnType> = ({ id, title, cards }) => {
         >
           {title}
         </p>
-        {cards.map((card) => (
-          <Card
-            key={card.id}
-            id={card.id}
-            type={card.type}
-            title={card.title}
-          ></Card>
-        ))}
+        {/* {cards.map((card: any) => (
+          <div>test</div>
+        ))} */}
       </div>
     </SortableContext>
   );

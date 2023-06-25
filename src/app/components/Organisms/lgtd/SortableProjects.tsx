@@ -1,5 +1,5 @@
 import React, { Dispatch } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
+import { DndContext, closestCenter, closestCorners } from "@dnd-kit/core";
 import {
   arrayMove,
   SortableContext,
@@ -26,8 +26,9 @@ export default function SortableProjects(props: Props) {
   function handleDragEnd(event: any) {
     console.log("SortableProjects-drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
     const { active, over } = event;
+    // console.log(over); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
 
-    if (active.id !== over.id) {
+    if (active != null && over != null && active.id !== over.id) {
       setProjects((preProjects: any[]) => {
         // console.log(`pretasks`);
         // console.log({ pretasks });
@@ -51,7 +52,7 @@ export default function SortableProjects(props: Props) {
   }
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+    <DndContext onDragEnd={handleDragEnd}>
       <div className="flex flex-col w-full ">
         <div className="text-lg font-extrabold text-center">
           <SortableContext

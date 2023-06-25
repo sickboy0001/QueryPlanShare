@@ -1,48 +1,49 @@
 import React, { useState } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { SortableItem } from "./SampleSortableItem";
-export default function SampleDnd2() {
-  const containers = ["Java", "Python", "TypeScript"];
+import { DndContext } from "@dnd-kit/core";
+import { Sample2Draggable } from "./Sample2Draggable";
+import { Sample2Droppable } from "./Sample2Droppable";
 
-  const [languages, setLanguages] = useState(containers);
+function SampleDnd2() {
+  const draggableContents = ["Drag-Me-A", "Drag-Me-B", "Drag-Me-C"];
+  const parentContainers = ["1", "2", "3", "5", "6", "7"];
+  const [parent, setParent] = useState(null);
 
-  function handleDragEnd(event: any) {
-    console.log("drag and called");
-    const { active, over } = event;
-    console.log(`active:${active.id}`);
-    console.log(`over:${over.id}`);
-
-    if (active.id !== over.id) {
-      setLanguages((items) => {
-        const activeIndex = items.indexOf(active.id);
-        const overIndex = items.indexOf(over.id);
-
-        console.log(arrayMove(items, activeIndex, overIndex));
-        return arrayMove(items, activeIndex, overIndex);
-      });
-    }
+  function handleDragEnd(event: { over: any; active: any }) {
+    const { over, active } = event;
+    // If the item is dropped over a container, set it as the parent
+    // otherwise reset the parent to `null`
+    console.log("over");
+    console.log(over);
+    console.log("active");
+    console.log(active);
   }
 
   return (
-    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-      <div className="flex flex-col w-full ">
-        <div className="text-lg font-extrabold text-center">
-          <h1> bets programing languages!</h1>
-          <SortableContext
-            items={languages}
-            strategy={verticalListSortingStrategy}
-          >
-            {languages.map((language) => (
-              <SortableItem key={language} id={language} />
-            ))}
-          </SortableContext>
+    <div className="flex">
+      <DndContext onDragEnd={handleDragEnd}>
+        <div className="p-1 border-2 rounded">
+          <div className="font-extrabold ">parentContainers</div>
+          {parentContainers.map((id) => (
+            // We updated the Droppable component so it would accept an `id`
+            // prop and pass it to `useDroppable`
+            <div key={id}>
+              <Sample2Droppable id={id}>Drop here {id}</Sample2Droppable>
+            </div>
+          ))}
         </div>
-      </div>
-    </DndContext>
+        <div className="p-1 border-2 rounded">
+          <div className="font-extrabold">Containers</div>
+          {draggableContents.map((id) => (
+            // We updated the Droppable component so it would accept an `id`
+            // prop and pass it to `useDroppable`
+            <div key={id}>
+              <Sample2Draggable id={id}>{id}</Sample2Draggable>
+            </div>
+          ))}
+        </div>
+      </DndContext>
+    </div>
   );
 }
+
+export default SampleDnd2;
