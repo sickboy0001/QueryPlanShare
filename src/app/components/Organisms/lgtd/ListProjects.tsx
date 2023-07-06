@@ -5,11 +5,6 @@ import SortableProjects from "./SortableProjects";
 
 import { NewProject } from "./NewProject";
 
-import SortableTasks from "./SortableTasks";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
-import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
-
 type Props = {
   projects: any;
   setProjects: Dispatch<any>;
