@@ -9,19 +9,18 @@ type Props = {
   tasks: any;
   setTasks: Dispatch<any>;
   setThisProjectId: Dispatch<any>;
+  handleDragEndTask: Dispatch<any>;
 };
 
 const ListTasks = (props: Props) => {
-  const { selectedProject, projects, tasks, setTasks, setThisProjectId } =
-    props;
-
-  function handleDragEnd(event: any) {
-    console.log("ProjectTasks_drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-    }
-  }
+  const {
+    selectedProject,
+    projects,
+    tasks,
+    setTasks,
+    setThisProjectId,
+    handleDragEndTask,
+  } = props;
 
   return (
     <div>

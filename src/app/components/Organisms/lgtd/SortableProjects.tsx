@@ -18,11 +18,6 @@ type Props = {
 export default function SortableProjects(props: Props) {
   const { projects, setProjects, thisProjectId, setThisProjectId } = props;
 
-  // console.log("props.projects");
-  // console.log(props.projects);
-  // console.log("projects");
-  // console.log(projects);
-
   function handleDragEnd(event: any) {
     console.log("SortableProjects-drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
     const { active, over } = event;
@@ -30,11 +25,6 @@ export default function SortableProjects(props: Props) {
 
     if (active != null && over != null && active.id !== over.id) {
       setProjects((preProjects: any[]) => {
-        // console.log(`pretasks`);
-        // console.log({ pretasks });
-        // const activeIndex = pretasks.indexOf(active.id);
-        // const overIndex = pretasks.indexOf(over.id);
-
         //順番の入手：連想配列内の特定の項目が対象の場合はfindIndexを利用する。
         const activeIndex = preProjects.findIndex(
           ({ id }: typeproject) => id === active.id
@@ -42,34 +32,25 @@ export default function SortableProjects(props: Props) {
         const overindex = preProjects.findIndex(
           ({ id }: typeproject) => id === over.id
         );
-        // console.log(`thisactiveIndex:${activeIndex}`);
-        // console.log(`thisoverindex:${overindex}`);
-        // console.log(arrayMove(pretasks, activeIndex, overindex));
-        //配列の移動　activeIndex　移動元番号, overindex　移動先番号
         return arrayMove(preProjects, activeIndex, overindex);
       });
     }
   }
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div className="flex flex-col w-full ">
-        <div className="text-lg font-extrabold text-center">
-          <SortableContext
-            items={projects}
-            strategy={verticalListSortingStrategy}
-          >
-            {projects.map((project) => (
-              <ThisProject
-                key={project.id}
-                project={project}
-                thisProjectId={thisProjectId}
-                setThisProjectId={setThisProjectId}
-              />
-            ))}
-          </SortableContext>
-        </div>
+    <div className="flex flex-col w-full ">
+      <div className="text-lg font-extrabold text-center">
+        <SortableContext items={projects}>
+          {projects.map((project) => (
+            <ThisProject
+              key={project.id}
+              project={project}
+              thisProjectId={thisProjectId}
+              setThisProjectId={setThisProjectId}
+            />
+          ))}
+        </SortableContext>
       </div>
-    </DndContext>
+    </div>
   );
 }

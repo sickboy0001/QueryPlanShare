@@ -1,16 +1,11 @@
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-// --arrows-up-down
-import {
-  ArrowsUpDownIcon,
-  ArrowSmallLeftIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 
 import EditTask from "./EditTask";
-
 import EditModalButton from "@/app/components/Molecules/EditModalButton";
 
 import InputText from "@/app/components/Atoms/Input/InputText";
@@ -18,16 +13,16 @@ import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
 import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
 import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
-import { ThisTaskToProject } from "./ThisTaskToPorject";
 
 type Props = {
   task: typetask;
+  setTasks: Dispatch<any>;
   projects: typeproject[];
   setThisProjectId: Dispatch<any>;
 };
 //orginal SortableTask
 export function ThisTask(props: Props) {
-  const { task, projects, setThisProjectId } = props;
+  const { task, setTasks, projects, setThisProjectId } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWriteThing, setIsWriteThing] = useState<boolean>(false);
@@ -43,11 +38,11 @@ export function ThisTask(props: Props) {
   };
 
   const onSubmit = () => {
-    console.log(`onsbumit:${task.id}`);
+    // console.log(`onsbumit:${task.id}`);
   };
 
   const handleEditStart = () => {
-    console.log(`handleEditStart:${title}`);
+    // console.log(`handleEditStart:${title}`);
     setIsWriteThing(true);
   };
 
@@ -66,7 +61,6 @@ export function ThisTask(props: Props) {
     if (title === "") return;
 
     //update data
-
     // await updateThingGoodThing(id, value);
     // let goodthings = await getAllGoodThings(userId);
     // setGoodThings(goodthings);
@@ -76,7 +70,7 @@ export function ThisTask(props: Props) {
   }
 
   function handleBlur(): void {
-    console.log("handleBlur");
+    // console.log("handleBlur");
     handleRegistMouseDown();
     setIsWriteThing(false);
   }
@@ -96,6 +90,7 @@ export function ThisTask(props: Props) {
         >
           <EditTask
             task={task}
+            setTasks={setTasks}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             projects={projects}

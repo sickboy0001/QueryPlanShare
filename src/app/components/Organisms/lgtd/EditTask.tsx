@@ -10,6 +10,7 @@ import { ListBoxIdName } from "../../Atoms/Input/ListBoxIdName";
 
 type Props = {
   task: typetask;
+  setTasks: Dispatch<any>;
   isOpen: boolean;
   setIsOpen: (arg0: boolean) => void;
   projects: typeproject[];
@@ -17,7 +18,9 @@ type Props = {
 };
 
 const EditTask = (props: Props) => {
-  const { task, isOpen, setIsOpen, projects, setThisProjectId } = props;
+  const { task, setTasks, isOpen, setIsOpen, projects, setThisProjectId } =
+    props;
+  const [pretask, setPretask] = useState(task);
   const [archiveEnabled, setArchiveEnabled] = useState(false);
   const [publicEnabled, setPublicEnabled] = useState(false);
   const [title, setTitle] = useState(task.title);
@@ -30,10 +33,27 @@ const EditTask = (props: Props) => {
   const onSubmit = () => {
     // todo setxxx使う必要あり？
     task.project_id = selected.id;
+    // setTitle(title);
     task.title = title;
     task.detail = detail;
     task.action_plan = actionPlan;
     task.review = review;
+
+    setPretask(task);
+    // setTasks((perfTasks: typetask[]) =>
+    //   perfTasks.map((task: typetask) => {
+    //     console.log(task);
+    //     return task;
+    //   })
+    // );
+    // setTasks((pretasks: any) => {
+    //   //順番の入手：連想配列内の特定の項目が対象の場合はfindIndexを利用する。
+    //   const targetindex = pretasks.findIndex(
+    //     ({ id }: typetask) => id === task.id
+    //   );
+    //   pretasks[targetindex] = task;
+    //   return pretasks;
+    // });
 
     setIsOpen(false);
     setThisProjectId(task.project_id);

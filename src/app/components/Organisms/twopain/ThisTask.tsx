@@ -1,62 +1,46 @@
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  ArrowsUpDownIcon,
-  Bars4Icon,
-  BookmarkSlashIcon,
-  LockOpenIcon,
-} from "@heroicons/react/24/outline";
+import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 
-import { typeproject } from "@/app/model/lgtd/projects.type";
+import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 
-import EditProject from "./EditProject";
-
+// import EditTask from "./EditTask";
 import EditModalButton from "@/app/components/Molecules/EditModalButton";
 
+import InputText from "@/app/components/Atoms/Input/InputText";
 import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
 import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
 import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
-import InputText from "@/app/components/Atoms/Input/InputText";
-import { useDroppable } from "@dnd-kit/core";
 
 type Props = {
-  project: typeproject;
+  task: typetask;
   thisProjectId: number;
-  setThisProjectId: Dispatch<any>;
 };
-
-export function ThisProject(props: Props) {
-  const { project, thisProjectId, setThisProjectId } = props;
+//orginal SortableTask
+export function ThisTask(props: Props) {
+  const { task, thisProjectId } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWriteThing, setIsWriteThing] = useState<boolean>(false);
   const textareaRef = useRef<HTMLInputElement>(null);
 
-  const [title, setTitle] = useState(project.title);
-
+  const [title, setTitle] = useState(task.title);
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: project.id });
+    useSortable({ id: thisProjectId.toString() + "_" + task.id.toString() });
 
-  const { isOver } = useDroppable({
-    id: thisProjectId,
-  });
-
-  const sortableProjectStyle = {
+  const sortableTaskStyle = {
     transform: CSS.Transform.toString(transform),
     transition,
   };
 
-  const onSelectProject = (id: number) => {
-    setThisProjectId(id);
-  };
   const onSubmit = () => {
-    console.log(`onsbumit:${project.id}`);
+    // console.log(`onsbumit:${task.id}`);
   };
 
   const handleEditStart = () => {
-    console.log(`handleEditStart:${title}`);
+    // console.log(`handleEditStart:${title}`);
     setIsWriteThing(true);
   };
 
@@ -74,18 +58,12 @@ export function ThisProject(props: Props) {
 
     if (title === "") return;
 
-    //update data
-
-    // await updateThingGoodThing(id, value);
-    // let goodthings = await getAllGoodThings(userId);
-    // setGoodThings(goodthings);
-
     setTitle(title);
     setIsWriteThing(false);
   }
 
   function handleBlur(): void {
-    console.log("handleBlur");
+    // console.log("handleBlur");
     handleRegistMouseDown();
     setIsWriteThing(false);
   }
@@ -95,8 +73,7 @@ export function ThisProject(props: Props) {
     <div
       className="border rounded-lg  border-gray-500 m-1 relative group"
       ref={setNodeRef}
-      style={sortableProjectStyle}
-      onClick={() => onSelectProject(project.id)}
+      style={sortableTaskStyle}
     >
       <ButtonOverMouse>
         <EditModalButton
@@ -104,20 +81,34 @@ export function ThisProject(props: Props) {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
         >
-          <EditProject
-            project={project}
+          {/* <EditTask
+            task={task}
+            setTasks={setTasks}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-          />
+            projects={projects}
+            setThisProjectId={setThisProjectId}
+          /> */}
         </EditModalButton>
       </ButtonOverMouse>
-
       <div className="flex">
-        <div className="flex  w-full">
-          <div className="flex-none " {...attributes} {...listeners}>
-            <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" />
-          </div>
-          <div className="grow">
+        <div className="flex-none " {...attributes} {...listeners}>
+          {/* <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" /> */}
+
+          <svg
+            className="inline-block w-5 h-5 mr-1"
+            viewBox="0 0 20 20"
+            width="24"
+          >
+            <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
+          </svg>
+        </div>
+        <div className="flex   w-full">
+          {/* <ThisTaskToProject key={task.id} id={task.id}>
+            <ArrowSmallLeftIcon className="inline-block w-5 h-5 mr-1" />
+          </ThisTaskToProject> */}
+
+          <div className="grow  ">
             {!isWriteThing ? (
               <LabelItemName>
                 <div className="text-left " onClick={handleEditStart}>
@@ -136,33 +127,13 @@ export function ThisProject(props: Props) {
             )}
           </div>
         </div>
-        <div className="flex ">
-          <LabelItemSmall>{project.state}</LabelItemSmall>
-          <LabelItemSmall>{project.important}</LabelItemSmall>
-          <LabelItemSmall>
-            {project.is_public ? (
-              <div>
-                <title>public</title>
-                <LockOpenIcon className="inline-block w-5 h-5 mr-1" />
-              </div>
-            ) : (
-              ""
-            )}
-          </LabelItemSmall>
-          <LabelItemSmall>
-            {project.is_archive ? (
-              <div>
-                <title>archive</title>
-                <BookmarkSlashIcon className="inline-block w-5 h-5 mr-1" />
-              </div>
-            ) : (
-              ""
-            )}
-          </LabelItemSmall>
+        <div className="flex justify-end">
+          <LabelItemSmall>{task.state}</LabelItemSmall>
+          {/* <LabelItemSmall>{task.import}</LabelItemSmall> */}
         </div>
       </div>
       <div className="flex text-left">
-        <LabelItemSub>{project.description}</LabelItemSub>
+        <LabelItemSub>{task.detail}</LabelItemSub>
       </div>
     </div>
   );

@@ -10,8 +10,6 @@ import {
 
 import { typeproject } from "@/app/model/lgtd/projects.type";
 
-import EditProject from "./EditProject";
-
 import EditModalButton from "@/app/components/Molecules/EditModalButton";
 
 import LabelItemName from "@/app/components/Atoms/Lable/LabelItemName";
@@ -23,12 +21,11 @@ import { useDroppable } from "@dnd-kit/core";
 
 type Props = {
   project: typeproject;
-  thisProjectId: number;
   setThisProjectId: Dispatch<any>;
 };
 
 export function ThisProject(props: Props) {
-  const { project, thisProjectId, setThisProjectId } = props;
+  const { project, setThisProjectId } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWriteThing, setIsWriteThing] = useState<boolean>(false);
@@ -36,12 +33,18 @@ export function ThisProject(props: Props) {
 
   const [title, setTitle] = useState(project.title);
 
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: project.id });
+  const {
+    // isOver,
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: project.id.toString() });
 
-  const { isOver } = useDroppable({
-    id: thisProjectId,
-  });
+  // const { isOver } = useDroppable({
+  //   id: props.id,
+  // });
 
   const sortableProjectStyle = {
     transform: CSS.Transform.toString(transform),
@@ -98,24 +101,17 @@ export function ThisProject(props: Props) {
       style={sortableProjectStyle}
       onClick={() => onSelectProject(project.id)}
     >
-      <ButtonOverMouse>
-        <EditModalButton
-          onSubmit={() => onSubmit()}
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-        >
-          <EditProject
-            project={project}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />
-        </EditModalButton>
-      </ButtonOverMouse>
-
       <div className="flex">
         <div className="flex  w-full">
           <div className="flex-none " {...attributes} {...listeners}>
-            <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" />
+            {/* <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" /> */}
+            <svg
+              className="inline-block w-5 h-5 mr-1"
+              viewBox="0 0 20 20"
+              width="24"
+            >
+              <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
+            </svg>
           </div>
           <div className="grow">
             {!isWriteThing ? (

@@ -9,8 +9,12 @@ import {
 
 import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
-import ListTasks from "./ListTasks";
-import ListProjects from "./ListProjects";
+import { arrayMove } from "@dnd-kit/sortable";
+import { NewTask } from "./NewTask";
+import SortableTasks from "./SortableTasks";
+import SortableProjects from "./SortableProjects";
+import { NewProject } from "./NewProject";
+import ParentComponent from "./SampleDnd3";
 import SampleDnd2 from "./SampleDnd2";
 
 const ProjectTasks = (props: any) => {
@@ -69,61 +73,101 @@ const ProjectTasks = (props: any) => {
     setThisTasks();
   }, [thisProjectId]);
 
-  function handleDragEnd(event: any) {
-    console.log("ProjectTasks_drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+  function handleDragEndTask(event: any) {
     const { active, over } = event;
+    console.log("ProjectTasks_drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+    console.log(active, over);
 
-    //ドラッグしたリソースのid
-    const id = active.id.toString();
-    //ドロップした場所にあったリソースのid
-    const overId = over?.id;
-    console.log(`ProjectTasks_drag active:${id} over:${overId.toString()}`);
-    console.log(active);
-    console.log(over);
-    if (!overId) return;
-
-    // ドラッグ、ドロップ時のコンテナ取得
-    // container1,container2,container3,container4のいずれかを持つ
-    // const activeContainer = findContainer(id);
-    // const overContainer = findContainer(over?.id);
-
-    if (active.id !== over.id) {
-      //   setProjects((preProjects: any) => {
-      //     //順番の入手：連想配列内の特定の項目が対象の場合はfindIndexを利用する。
-      //     const activeIndex = preProjects.findIndex(
-      //       ({ id }: typeproject) => id === active.id
-      //     );
-      //     const overindex = preProjects.findIndex(
-      //       ({ id }: typeproject) => id === over.id
-      //     );
-      //     //配列の移動　activeIndex　移動元番号, overindex　移動先番号
-      //     return arrayMove(preProjects, activeIndex, overindex);
-      //   });
+    if (active != null && over != null && active.id !== over.id) {
+      console.log(
+        `tasks drag and called active.id ${active.id} over.id ${over.id}`
+      ); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+      setTasks((pretasks: any) => {
+        //順番の入手：連想配列内の特定の項目が対象の場合はfindIndexを利用する。
+        const activeIndex = pretasks.findIndex(
+          ({ id }: typetask) => id === active.id
+        );
+        const overindex = pretasks.findIndex(
+          ({ id }: typetask) => id === over.id
+        );
+        //配列の移動　activeIndex　移動元番号, overindex　移動先番号
+        return arrayMove(pretasks, activeIndex, overindex);
+      });
     }
   }
+  // function handleDragEnd(event: any) {
+  //   console.log("ProjectTasks_drag and called"); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+  //   const { active, over } = event;
+
+  //   //ドラッグしたリソースのid
+  //   const id = active.id.toString();
+  //   //ドロップした場所にあったリソースのid
+  //   const overId = over?.id;
+  //   console.log(`ProjectTasks_drag active:${id} over:${overId.toString()}`);
+  //   console.log(active);
+  //   console.log(over);
+  //   if (!overId) return;
+
+  //   // ドラッグ、ドロップ時のコンテナ取得
+  //   // container1,container2,container3,container4のいずれかを持つ
+  //   // const activeContainer = findContainer(id);
+  //   // const overContainer = findContainer(over?.id);
+
+  //   if (active.id !== over.id) {
+  //     setProjects((preProjects: any) => {
+  //       //順番の入手：連想配列内の特定の項目が対象の場合はfindIndexを利用する。
+  //       const activeIndex = preProjects.findIndex(
+  //         ({ id }: typeproject) => id === active.id
+  //       );
+  //       const overindex = preProjects.findIndex(
+  //         ({ id }: typeproject) => id === over.id
+  //       );
+  //       //配列の移動　activeIndex　移動元番号, overindex　移動先番号
+  //       return arrayMove(preProjects, activeIndex, overindex);
+  //     });
+  //   }
+  // }
 
   return (
     <div>
       <SampleDnd2 />
-      <div className="grid grid-cols-4">
-        <div>
-          <ListProjects
-            projects={projects}
-            setProjects={setProjects}
-            thisProjectId={thisProjectId}
-            setThisProjectId={setThisProjectId}
-          />
+
+      {/* <ParentComponent /> */}
+
+      <DndContext onDragEnd={handleDragEndTask}>
+        <div className="grid grid-cols-4">
+          <div>
+            <SortableProjects
+              projects={projects}
+              setProjects={setProjects}
+              thisProjectId={thisProjectId}
+              setThisProjectId={setThisProjectId}
+            />
+            <NewProject
+              projects={projects}
+              setProjects={setProjects}
+            ></NewProject>
+          </div>
+
+          <div className="col-span-3">
+            <div>
+              <SortableTasks
+                selectedProject={selectedProject}
+                projects={projects}
+                tasks={tasks}
+                setTasks={setTasks}
+                setThisProjectId={setThisProjectId}
+              />
+              <NewTask
+                userId={0}
+                projectId={selectedProject?.id}
+                tasks={tasks}
+                setTasks={setTasks}
+              ></NewTask>
+            </div>
+          </div>
         </div>
-        <div className="col-span-3">
-          <ListTasks
-            selectedProject={selectedProject}
-            projects={projects}
-            tasks={tasks}
-            setTasks={setTasks}
-            setThisProjectId={setThisProjectId}
-          />
-        </div>
-      </div>
+      </DndContext>
     </div>
   );
 };

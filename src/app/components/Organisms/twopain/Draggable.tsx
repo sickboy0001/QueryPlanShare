@@ -1,7 +1,7 @@
 import React from "react";
 import { useDraggable } from "@dnd-kit/core";
 
-export function Sample2Draggable(props: any) {
+export function Draggable(props: any) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
   });
@@ -12,7 +12,7 @@ export function Sample2Draggable(props: any) {
     : undefined;
 
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div ref={setNodeRef} {...listeners} {...attributes}>
       {props.children}
     </div>
   );

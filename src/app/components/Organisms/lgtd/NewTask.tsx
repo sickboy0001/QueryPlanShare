@@ -12,7 +12,7 @@ const moment = require("moment");
 
 type Props = {
   userId: number;
-  projectId: number;
+  projectId?: number;
   tasks: typetask[];
   setTasks: Dispatch<any>;
 };
@@ -45,8 +45,9 @@ export function NewTask(props: Props) {
     if (value === "") return;
     const newValue = value;
     setValue("");
+
     //todo　データ登録　読み取り
-    const result = await addNewTask("", newValue, projectId);
+    const result = await addNewTask("", newValue, projectId ? projectId : 1);
 
     //メモリ内の情報更新
     const newpTask: typetask = {
@@ -58,7 +59,7 @@ export function NewTask(props: Props) {
           })
         ) + 1,
       user_id: "",
-      project_id: projectId,
+      project_id: projectId ? projectId : 1,
       title: newValue,
       is_public: false,
       is_archive: false,
