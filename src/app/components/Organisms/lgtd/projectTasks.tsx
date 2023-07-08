@@ -14,7 +14,7 @@ import { NewTask } from "./NewTask";
 import SortableTasks from "./SortableTasks";
 import SortableProjects from "./SortableProjects";
 import { NewProject } from "./NewProject";
-import ParentComponent from "./SampleDnd3";
+// import ParentComponent from "./SampleDnd3";
 import SampleDnd2 from "./SampleDnd2";
 
 const ProjectTasks = (props: any) => {
@@ -130,7 +130,7 @@ const ProjectTasks = (props: any) => {
 
   return (
     <div>
-      <SampleDnd2 />
+      {/* <SampleDnd2 /> */}
 
       {/* <ParentComponent /> */}
 

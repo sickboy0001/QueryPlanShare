@@ -17,10 +17,11 @@ import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
 type Props = {
   task: typetask;
   thisProjectId: number;
+  children: any;
 };
 //orginal SortableTask
 export function ThisTask(props: Props) {
-  const { task, thisProjectId } = props;
+  const { task, thisProjectId, children } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWriteThing, setIsWriteThing] = useState<boolean>(false);
@@ -81,6 +82,7 @@ export function ThisTask(props: Props) {
           isOpen={isOpen}
           setIsOpen={setIsOpen}
         >
+          {children}
           {/* <EditTask
             task={task}
             setTasks={setTasks}

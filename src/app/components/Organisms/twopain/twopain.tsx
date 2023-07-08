@@ -7,19 +7,25 @@ import {
   pointerWithin,
   rectIntersection,
 } from "@dnd-kit/core";
+import { Droppable } from "./Droppable";
 
 import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { ThisProject } from "./ThisProject";
 import { ThisTask } from "./ThisTask";
-import { Draggable } from "./Draggable";
-import { Droppable } from "./Droppable";
+import EditProject from "./EditProject";
+import { NewTask } from "./NewTask";
+import EditTask from "./EditTask";
+import { NewProject } from "./NewProject";
 
 // export default function Kanban()
 export default function Twopain() {
   const [userId, setUserId] = useState("");
   const [thisProjectId, setThisProjectId] = useState(-1);
+  const [isProjectOpen, setIsProjectOpen] = useState(false);
+  const [isTaskOpen, setIsTaskOpen] = useState(false);
+
   const [projects, setProjects] = useState<typeproject[]>([]);
   const [tasks, setTasks] = useState<typetask[]>([]);
   const [selectedProject, setSelectedProject] = useState<
@@ -164,10 +170,30 @@ export default function Twopain() {
                     key={project.id}
                     project={project}
                     setThisProjectId={setThisProjectId}
-                  />
+                  >
+                    <EditProject
+                      project={project}
+                      isOpen={isProjectOpen}
+                      setIsOpen={setIsProjectOpen}
+                    />
+                  </ThisProject>
+
+                  {/* </ThisProject> */}
+                  {/* <EditTask
+            task={task}
+            setTasks={setTasks}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            projects={projects}
+            setThisProjectId={setThisProjectId}
+          /> */}
                 </Droppable>
               ))}
             </SortableContext>
+            <NewProject
+              projects={projects}
+              setProjects={setProjects}
+            ></NewProject>
           </div>
 
           <div className="col-span-3">
@@ -189,10 +215,25 @@ export default function Twopain() {
                       key={task.id}
                       task={task}
                       thisProjectId={thisProjectId}
-                    />
+                    >
+                      <EditTask
+                        task={task}
+                        setTasks={setTasks}
+                        isOpen={isTaskOpen}
+                        setIsOpen={setIsTaskOpen}
+                        projects={projects}
+                        setThisProjectId={setThisProjectId}
+                      />
+                    </ThisTask>
                   </div>
                 ))}
               </SortableContext>
+              <NewTask
+                userId={0}
+                projectId={thisProjectId}
+                tasks={tasks}
+                setTasks={setTasks}
+              ></NewTask>
             </div>
           </div>
         </div>

@@ -7,8 +7,9 @@ export function Droppable(props: any) {
   });
 
   const style = {
-    color: isOver ? "green" : undefined,
-    backgroundColor: isOver ? "#87CEEB" : undefined,
+    // backgroundColor: isOver ? "#87CEEB" : undefined,
+    border: isOver ? "solid 1px " : undefined,
+    borderRadius: "10px",
   };
 
   return (

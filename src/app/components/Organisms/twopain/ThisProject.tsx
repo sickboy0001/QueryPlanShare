@@ -22,10 +22,11 @@ import { useDroppable } from "@dnd-kit/core";
 type Props = {
   project: typeproject;
   setThisProjectId: Dispatch<any>;
+  children: any;
 };
 
 export function ThisProject(props: Props) {
-  const { project, setThisProjectId } = props;
+  const { project, setThisProjectId, children } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWriteThing, setIsWriteThing] = useState<boolean>(false);
@@ -101,6 +102,23 @@ export function ThisProject(props: Props) {
       style={sortableProjectStyle}
       onClick={() => onSelectProject(project.id)}
     >
+      <ButtonOverMouse>
+        <EditModalButton
+          onSubmit={() => onSubmit()}
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+        >
+          {children}
+          {/* <EditTask
+            task={task}
+            setTasks={setTasks}
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            projects={projects}
+            setThisProjectId={setThisProjectId}
+          /> */}
+        </EditModalButton>
+      </ButtonOverMouse>
       <div className="flex">
         <div className="flex  w-full">
           <div className="flex-none " {...attributes} {...listeners}>
