@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect, useRef, useState } from "react";
 // import Button from "@/app/components/Atoms/Button/Button";
-import { addNewProject } from "@/app/bizlogic/lgtd";
+import { addNewProject, getAllPorjects } from "@/app/bizlogic/lgtd";
 import TextAreaDirectInput from "@/app/components/Atoms/Input/TextAreaDirectInput";
 import Button from "@/app/components/Atoms/Button/Button";
 import InputText from "@/app/components/Atoms/Input/InputText";
@@ -10,17 +10,18 @@ const moment = require("moment");
 // import { addGoodThing, getAllGoodThings } from "@/bizlogic/goodthings";
 
 type Props = {
+  userId: string;
   projects: typeproject[];
   setProjects: Dispatch<any>;
 };
 export function NewProject(props: Props) {
-  const { projects, setProjects } = props;
+  const { userId, projects, setProjects } = props;
   const [isNewThing, setIsNewThing] = useState(Boolean);
-  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (isNewThing && textareaRef.current !== null) {
+    if (isNewThing && textareaRef.current) {
       // console.log("setfocus");
       textareaRef.current!.focus();
     }
@@ -37,41 +38,40 @@ export function NewProject(props: Props) {
   }
 
   async function addActionNewProject(): Promise<void> {
-    // console.log("handleRegistMouseDown");
-    // console.log(`${value}-${props.userId}-${props.date}`);
-    if (value === "") return;
-    const newValue = value;
-    setValue("");
+    if (title === "") return;
+    const newTitle = title;
+    setTitle("");
     //todo　データ登録　読み取り
-    const result = await addNewProject("", newValue);
+    const result = await addNewProject(userId, newTitle);
 
-    //メモリ内の情報更新
-    const newproject: typeproject = {
-      id:
-        Math.max.apply(
-          0,
-          projects.map(function (o) {
-            return o.id;
-          })
-        ) + 1,
-      user_id: "xxxxx",
-      title: newValue,
-      is_archive: false,
-      is_public: false,
-      description: "test",
-      action_plan: "test",
-      state: "",
-      from_date: "",
-      to_date: "",
-      review: "",
-      important: 1,
-      created_at: "",
-      updated_at: "",
-    };
-    // console.log(projects);
-    setProjects([...projects, newproject]);
+    const newsetProjects = await getAllPorjects(userId);
+    setProjects(newsetProjects);
 
-    setIsNewThing(false);
+    // const newproject: typeproject = {
+    //   id:
+    //     Math.max.apply(
+    //       0,
+    //       projects.map(function (o) {
+    //         return o.id;
+    //       })
+    //     ) + 1,
+    //   user_id: "xxxxx",
+    //   title: newValue,
+    //   is_archive: false,
+    //   is_public: false,
+    //   description: "test",
+    //   action_plan: "test",
+    //   state: "",
+    //   from_date: "",
+    //   to_date: "",
+    //   review: "",
+    //   important: 1,
+    //   created_at: "",
+    //   updated_at: "",
+    // };
+    // // console.log(projects);
+    // setProjects([...projects, newproject]);
+    // setIsNewThing(false);
   }
 
   function handleBlur(): void {
@@ -93,9 +93,9 @@ export function NewProject(props: Props) {
         </div>
       ) : (
         <InputText
-          setValue={setValue}
+          setValue={setTitle}
           handleBlur={handleBlur}
-          value={value}
+          value={title}
           textareaRef={textareaRef}
         ></InputText>
       )}

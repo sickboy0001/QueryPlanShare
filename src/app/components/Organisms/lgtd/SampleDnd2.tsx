@@ -31,16 +31,16 @@ export default function SampleDnd2() {
       //   : guest_user_id
       //   ? guest_user_id
       //   : ""; //guest_user_id === undefined ? "" : guest_user_id;
-      const newsetProjects: typeproject[] = await getAllPorjects(this_userid);
-      setUserId(this_userid);
-      setProjects(newsetProjects);
+      // const newsetProjects: typeproject[] = await getAllPorjects(this_userid);
+      // setUserId(this_userid);
+      // setProjects(newsetProjects);
 
-      if (thisProjectId < 0) {
-        // setThisProjectId(2);
-        setThisProjectId(newsetProjects[0].id);
-        // console.log(`thisprojectid = ${newsetProjects[0].id}`);
-        // console.log(newsetProjects);
-      }
+      // if (thisProjectId < 0) {
+      //   // setThisProjectId(2);
+      //   setThisProjectId(newsetProjects[0].id);
+      //   // console.log(`thisprojectid = ${newsetProjects[0].id}`);
+      //   // console.log(newsetProjects);
+      // }
     };
     getpProjects();
   }, [userId]);
@@ -53,18 +53,18 @@ export default function SampleDnd2() {
       //   : guest_user_id
       //   ? guest_user_id
       //   : ""; //guest_user_id === undefined ? "" : guest_user_id;
-      if (thisProjectId >= 0) {
-        const newTasks: typetask[] = await getProjectTasks(
-          this_userid,
-          thisProjectId
-        );
-        setTasks(newTasks);
+      // if (thisProjectId >= 0) {
+      //   const newTasks: typetask[] = await getProjectTasks(
+      //     this_userid,
+      //     thisProjectId
+      //   );
+      //   setTasks(newTasks);
 
-        const thisproject = projects.filter(
-          (project) => project.id === thisProjectId
-        )[0];
-        setSelectedProject(thisproject);
-      }
+      //   const thisproject = projects.filter(
+      //     (project) => project.id === thisProjectId
+      //   )[0];
+      //   setSelectedProject(thisproject);
+      // }
     };
     setThisTasks();
   }, [thisProjectId]);

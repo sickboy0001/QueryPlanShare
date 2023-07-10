@@ -1,4 +1,3 @@
-"use client";
 import React, { useEffect, useState } from "react";
 import ProjectTasks from "@/app/components/Organisms/lgtd/projectTasks";
 

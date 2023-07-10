@@ -29,7 +29,7 @@ function GoodThings() {
       <SubTitle Title="Local Getting Things Done" Description=""></SubTitle>
       <div> {userId}</div>
 
-      <Twopain />
+      <Twopain userId={userId} />
       {/* <Container /> */}
     </section>
   );

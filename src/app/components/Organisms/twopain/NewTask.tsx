@@ -5,21 +5,22 @@ import TextAreaDirectInput from "@/app/components/Atoms/Input/TextAreaDirectInpu
 import Button from "@/app/components/Atoms/Button/Button";
 import InputText from "@/app/components/Atoms/Input/InputText";
 import { typetask } from "@/app/model/lgtd/projects.type";
-import { addNewTask } from "@/app/bizlogic/lgtd";
+import { addNewTask, getProjectTasks } from "@/app/bizlogic/lgtd";
+
 const moment = require("moment");
 
 // import { addGoodThing, getAllGoodThings } from "@/bizlogic/goodthings";
 
 type Props = {
-  userId: number;
+  userId: string;
   projectId?: number;
-  tasks: typetask[];
   setTasks: Dispatch<any>;
+  setSelectedProject: Dispatch<any>;
 };
 export function NewTask(props: Props) {
-  const { userId, projectId, tasks, setTasks } = props;
+  const { userId, projectId, setTasks, setSelectedProject } = props;
   const [isNewThing, setIsNewThing] = useState(Boolean);
-  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -40,38 +41,41 @@ export function NewTask(props: Props) {
   }
 
   async function addActionNewTask(): Promise<void> {
-    if (value === "") return;
-    const newValue = value;
-    setValue("");
+    if (title === "") return;
+    const newTitle = title;
+    const newProjectId = projectId ? projectId : 1;
+    setTitle("");
+    setIsNewThing(false);
 
     //todo　データ登録　読み取り
-    const result = await addNewTask("", newValue, projectId ? projectId : 1);
+    const result = await addNewTask(userId, newProjectId, newTitle);
 
-    //メモリ内の情報更新
-    const newpTask: typetask = {
-      id:
-        Math.max.apply(
-          0,
-          tasks.map(function (o) {
-            return o.id;
-          })
-        ) + 1,
-      user_id: "",
-      project_id: projectId ? projectId : 1,
-      title: newValue,
-      is_public: false,
-      is_archive: false,
-      action_plan: "",
-      detail: "",
-      start_date: "",
-      due_date: "",
-      state: "",
-      type: "",
-      review: "",
-    };
-    console.log(newpTask);
-    setTasks([...tasks, newpTask]);
-    setIsNewThing(false);
+    const newTasks = await getProjectTasks(userId, newProjectId);
+    setTasks(newTasks);
+
+    // //メモリ内の情報更新
+    // const newpTask: typetask = {
+    //   id:
+    //     Math.max.apply(
+    //       0,
+    //       tasks.map(function (o) {
+    //         return o.id;
+    //       })
+    //     ) + 1,
+    //   user_id: "",
+    //   project_id: newProjectId,
+    //   title: newTitle,
+    //   is_public: false,
+    //   is_archive: false,
+    //   action_plan: "",
+    //   detail: "",
+    //   start_date: "",
+    //   due_date: "",
+    //   state: "",
+    //   type: "",
+    //   review: "",
+    // };
+    // console.log(newpTask);
   }
 
   function handleBlur(): void {
@@ -93,9 +97,9 @@ export function NewTask(props: Props) {
         </div>
       ) : (
         <InputText
-          setValue={setValue}
+          setValue={setTitle}
           handleBlur={handleBlur}
-          value={value}
+          value={title}
           textareaRef={textareaRef}
         ></InputText>
       )}

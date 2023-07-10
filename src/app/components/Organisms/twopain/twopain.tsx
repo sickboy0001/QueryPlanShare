@@ -1,4 +1,5 @@
-"user client";
+"use client";
+
 import React, { useEffect, useState } from "react";
 import {
   DndContext,
@@ -19,55 +20,57 @@ import { NewTask } from "./NewTask";
 import EditTask from "./EditTask";
 import { NewProject } from "./NewProject";
 
+type Props = {
+  userId: string;
+};
+
 // export default function Kanban()
-export default function Twopain() {
-  const [userId, setUserId] = useState("");
+export default function Twopain(props: Props) {
+  const { userId } = props;
   const [thisProjectId, setThisProjectId] = useState(-1);
+
   const [isProjectOpen, setIsProjectOpen] = useState(false);
   const [isTaskOpen, setIsTaskOpen] = useState(false);
 
-  const [projects, setProjects] = useState<typeproject[]>([]);
-  const [tasks, setTasks] = useState<typetask[]>([]);
-  const [selectedProject, setSelectedProject] = useState<
-    typeproject | undefined
-  >(undefined);
+  const [projects, setProjects] = useState<any>();
+  const [tasks, setTasks] = useState<any>([]);
+  const [selectedProject, setSelectedProject] = useState<any>(0);
 
   useEffect(() => {
     const getpProjects = async () => {
-      const this_userid = "";
-      // user.id
-      //   ? user.id
-      //   : guest_user_id
-      //   ? guest_user_id
-      //   : ""; //guest_user_id === undefined ? "" : guest_user_id;
-      const newsetProjects: typeproject[] = await getAllPorjects(this_userid);
-      setUserId(this_userid);
+      console.log(userId);
+      const this_userid = userId;
+      //guest_user_id === undefined ? "" : guest_user_id;
+      const newsetProjects = await getAllPorjects(this_userid);
       setProjects(newsetProjects);
+      console.log(newsetProjects);
 
-      if (thisProjectId < 0) {
-        setThisProjectId(2);
-        setThisProjectId(newsetProjects[0].id);
-        console.log(`thisprojectid = ${newsetProjects[0].id}`);
-        console.log(newsetProjects);
-      }
+      // if (thisProjectId < 0) {
+      //   setThisProjectId(2);
+      //   setThisProjectId(newsetProjects[0].id);
+      //   console.log(`thisprojectid = ${newsetProjects[0].id}`);
+      //   console.log(newsetProjects);
+      // }
     };
     getpProjects();
   }, [userId]);
 
   useEffect(() => {
     const setThisTasks = async () => {
-      const this_userid = "";
       if (thisProjectId >= 0) {
-        const newTasks: typetask[] = await getProjectTasks(
-          this_userid,
-          thisProjectId
-        );
-        setTasks(newTasks);
-
-        const thisproject = projects.filter(
-          (project) => project.id === thisProjectId
+        const newProject = projects.filter(
+          (project: any) => project.id === thisProjectId
         )[0];
-        setSelectedProject(thisproject);
+        setSelectedProject(newProject);
+        // console.log(projects.filter((project) => project.id === thisProjectId));
+
+        const Tasks = await getProjectTasks(userId, thisProjectId);
+        setTasks(Tasks);
+
+        // const thisproject = projects.filter(
+        //   (project) => project.id === thisProjectId
+        // )[0];
+        // setSelectedProject(thisproject);
       }
     };
     setThisTasks();
@@ -136,15 +139,15 @@ export default function Twopain() {
         const activeProjectIndex = projects.findIndex(
           ({ id }: typeproject) => id.toString() === over.id
         );
-        task.project_id = projects[activeProjectIndex].id;
+        // task.project_id = projects[activeProjectIndex].id;
 
-        setTasks(
-          tasks.map((thistask: typetask) =>
-            thistask.id === task.id ? (thistask = task) : thistask
-          )
-        );
+        // setTasks(
+        //   tasks.map((thistask: typetask) =>
+        //     thistask.id === task.id ? (thistask = task) : thistask
+        //   )
+        // );
 
-        setThisProjectId(task.project_id);
+        // setThisProjectId(task.project_id);
 
         console.log(task);
       }
@@ -157,40 +160,39 @@ export default function Twopain() {
         onDragEnd={handleDragEndTask}
         collisionDetection={pointerWithin}
       >
-        {/* Closest corners Rectangle intersection*/}
         <div className="grid grid-cols-4">
           <div className="col-span-1">
             <div>project</div>
-            <SortableContext
-              items={projects.map((project) => project.id.toString())}
-            >
-              {projects.map((project, index) => (
-                <Droppable id={project.id.toString()}>
-                  <ThisProject
-                    key={project.id}
-                    project={project}
-                    setThisProjectId={setThisProjectId}
-                  >
-                    <EditProject
-                      project={project}
-                      isOpen={isProjectOpen}
-                      setIsOpen={setIsProjectOpen}
-                    />
-                  </ThisProject>
-
-                  {/* </ThisProject> */}
-                  {/* <EditTask
-            task={task}
-            setTasks={setTasks}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            projects={projects}
-            setThisProjectId={setThisProjectId}
-          /> */}
-                </Droppable>
-              ))}
-            </SortableContext>
+            {projects ? (
+              <div>
+                <SortableContext
+                  items={projects.map((project: any) => project.id.toString())}
+                >
+                  {projects.map((project: any) => (
+                    <Droppable
+                      key={project.id.toString()}
+                      id={project.id.toString()}
+                    >
+                      <ThisProject
+                        key={project.id}
+                        project={project}
+                        setThisProjectId={setThisProjectId}
+                      >
+                        <EditProject
+                          project={project}
+                          isOpen={isProjectOpen}
+                          setIsOpen={setIsProjectOpen}
+                        />
+                      </ThisProject>
+                    </Droppable>
+                  ))}
+                </SortableContext>
+              </div>
+            ) : (
+              ""
+            )}
             <NewProject
+              userId={userId}
               projects={projects}
               setProjects={setProjects}
             ></NewProject>
@@ -204,36 +206,43 @@ export default function Twopain() {
                 : ""}
             </div>
             <div>
-              <SortableContext
-                items={tasks.map(
-                  (task) => thisProjectId.toString() + "_" + task.id.toString()
-                )}
-              >
-                {tasks.map((task, index) => (
-                  <div>
-                    <ThisTask
-                      key={task.id}
-                      task={task}
-                      thisProjectId={thisProjectId}
-                    >
-                      <EditTask
-                        task={task}
-                        setTasks={setTasks}
-                        isOpen={isTaskOpen}
-                        setIsOpen={setIsTaskOpen}
-                        projects={projects}
-                        setThisProjectId={setThisProjectId}
-                      />
-                    </ThisTask>
-                  </div>
-                ))}
-              </SortableContext>
-              <NewTask
-                userId={0}
-                projectId={thisProjectId}
-                tasks={tasks}
-                setTasks={setTasks}
-              ></NewTask>
+              {projects ? (
+                <div>
+                  <SortableContext
+                    items={tasks.map(
+                      (task: any) =>
+                        thisProjectId.toString() + "_" + task.id.toString()
+                    )}
+                  >
+                    {tasks.map((task: any) => (
+                      <div>
+                        <ThisTask
+                          key={task.id}
+                          task={task}
+                          thisProjectId={thisProjectId}
+                        >
+                          <EditTask
+                            task={task}
+                            setTasks={setTasks}
+                            isOpen={isTaskOpen}
+                            setIsOpen={setIsTaskOpen}
+                            projects={projects}
+                            setThisProjectId={setThisProjectId}
+                          />
+                        </ThisTask>
+                      </div>
+                    ))}
+                  </SortableContext>
+                  <NewTask
+                    userId={userId}
+                    projectId={thisProjectId}
+                    setTasks={setTasks}
+                    setSelectedProject={setSelectedProject}
+                  ></NewTask>
+                </div>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

@@ -1,12 +1,7 @@
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  ArrowsUpDownIcon,
-  Bars4Icon,
-  BookmarkSlashIcon,
-  LockOpenIcon,
-} from "@heroicons/react/24/outline";
+import { BookmarkSlashIcon, LockOpenIcon } from "@heroicons/react/24/outline";
 
 import { typeproject } from "@/app/model/lgtd/projects.type";
 
@@ -17,7 +12,6 @@ import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
 import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
 import InputText from "@/app/components/Atoms/Input/InputText";
-import { useDroppable } from "@dnd-kit/core";
 
 type Props = {
   project: typeproject;
@@ -34,18 +28,8 @@ export function ThisProject(props: Props) {
 
   const [title, setTitle] = useState(project.title);
 
-  const {
-    // isOver,
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-  } = useSortable({ id: project.id.toString() });
-
-  // const { isOver } = useDroppable({
-  //   id: props.id,
-  // });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: project.id.toString() });
 
   const sortableProjectStyle = {
     transform: CSS.Transform.toString(transform),
@@ -109,20 +93,11 @@ export function ThisProject(props: Props) {
           setIsOpen={setIsOpen}
         >
           {children}
-          {/* <EditTask
-            task={task}
-            setTasks={setTasks}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            projects={projects}
-            setThisProjectId={setThisProjectId}
-          /> */}
         </EditModalButton>
       </ButtonOverMouse>
       <div className="flex">
         <div className="flex  w-full">
           <div className="flex-none " {...attributes} {...listeners}>
-            {/* <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" /> */}
             <svg
               className="inline-block w-5 h-5 mr-1"
               viewBox="0 0 20 20"
