@@ -7,7 +7,8 @@ import { sampleProjects, sampleTasks } from "./SampleDatas";
 
 
 export const getAllPorjects= async (user_id: string) => {
-    return selectAllPorjects(user_id);
+    const result = await selectAllPorjects(user_id);
+    return result;
     
 };
 

@@ -10,7 +10,11 @@ import {
 } from "@dnd-kit/core";
 import { Droppable } from "./Droppable";
 
-import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
+import {
+  addNewProject,
+  getAllPorjects,
+  getProjectTasks,
+} from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
 import { ThisProject } from "./ThisProject";
@@ -41,9 +45,18 @@ export default function Twopain(props: Props) {
       console.log(userId);
       const this_userid = userId;
       //guest_user_id === undefined ? "" : guest_user_id;
-      const newsetProjects = await getAllPorjects(this_userid);
-      setProjects(newsetProjects);
-      console.log(newsetProjects);
+      if (userId) {
+        const newsetProjects = await getAllPorjects(this_userid);
+        if (newsetProjects !== null && newsetProjects.length !== 0) {
+          setProjects(newsetProjects);
+        } else {
+          const newTitle = "inbox";
+          //todo　データ登録　読み取り
+          const result = await addNewProject(userId, newTitle);
+          const newsetProjects2 = await getAllPorjects(this_userid);
+          setProjects(newsetProjects2);
+        }
+      }
 
       // if (thisProjectId < 0) {
       //   setThisProjectId(2);
@@ -99,7 +112,18 @@ export default function Twopain(props: Props) {
           );
           //配列の移動　activeIndex　移動元番号, overindex　移動先番号
           console.log(activeIndex, overindex); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
-          return arrayMove(preprojects, activeIndex, overindex);
+          const ptninbox = new RegExp("inbox");
+          if (
+            ptninbox.test(preprojects[activeIndex].title) ||
+            ptninbox.test(preprojects[overindex].title)
+          ) {
+            console.log("not dnd reason use inbox");
+            return preprojects;
+          } else {
+            const newProjects = arrayMove(preprojects, activeIndex, overindex);
+            console.log(newProjects);
+            return newProjects;
+          }
         });
       }
       //active=task(x_y)    over task(z-w)
@@ -113,8 +137,8 @@ export default function Twopain(props: Props) {
             ({ id }: typetask) => id.toString() === over.id.match(ptn)[2]
           );
           //配列の移動　activeIndex　移動元番号, overindex　移動先番号
-          console.log(active.id.match(ptn)[2], over.id.match(ptn)[2]); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
-          console.log(activeIndex, overindex); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+          // console.log(active.id.match(ptn)[2], over.id.match(ptn)[2]); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
+          // console.log(activeIndex, overindex); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
           return arrayMove(pretasks, activeIndex, overindex);
         });
       }
