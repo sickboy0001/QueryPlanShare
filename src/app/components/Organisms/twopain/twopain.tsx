@@ -14,6 +14,7 @@ import {
   addNewProject,
   getAllPorjects,
   getProjectTasks,
+  registTargetOrders,
 } from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
@@ -121,6 +122,12 @@ export default function Twopain(props: Props) {
             return preprojects;
           } else {
             const newProjects = arrayMove(preprojects, activeIndex, overindex);
+            const newProjectsOrder = newProjects
+              .map((newTask: any) => newTask.id.toString())
+              .join();
+            if (newProjectsOrder) {
+              registTargetOrders(userId, "projects", 0, newProjectsOrder);
+            }
             console.log(newProjects);
             return newProjects;
           }
@@ -139,7 +146,15 @@ export default function Twopain(props: Props) {
           //配列の移動　activeIndex　移動元番号, overindex　移動先番号
           // console.log(active.id.match(ptn)[2], over.id.match(ptn)[2]); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
           // console.log(activeIndex, overindex); // console.log(`active:${active.id}`);// console.log(`over:${over.id}`);
-          return arrayMove(pretasks, activeIndex, overindex);
+          const thisprojectid = pretasks[activeIndex].project_id;
+          const newTasks = arrayMove(pretasks, activeIndex, overindex);
+          const newTasksOrder = newTasks
+            .map((newTask: any) => newTask.id.toString())
+            .join();
+          if (newTasksOrder) {
+            registTargetOrders(userId, "tasks", thisprojectid, newTasksOrder);
+          }
+          return newTasks;
         });
       }
       //active=task(x_y)    over project(z)
@@ -239,12 +254,8 @@ export default function Twopain(props: Props) {
                     )}
                   >
                     {tasks.map((task: any) => (
-                      <div>
-                        <ThisTask
-                          key={task.id}
-                          task={task}
-                          thisProjectId={thisProjectId}
-                        >
+                      <div key={task.id}>
+                        <ThisTask task={task} thisProjectId={thisProjectId}>
                           <EditTask
                             task={task}
                             setTasks={setTasks}
