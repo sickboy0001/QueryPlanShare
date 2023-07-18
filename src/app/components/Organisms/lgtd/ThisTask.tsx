@@ -83,7 +83,7 @@ export function ThisTask(props: Props) {
       style={sortableTaskStyle}
     >
       <ButtonOverMouse>
-        <EditModalButton
+        {/* <EditModalButton
           onSubmit={() => onSubmit()}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
@@ -96,7 +96,7 @@ export function ThisTask(props: Props) {
             projects={projects}
             setThisProjectId={setThisProjectId}
           />
-        </EditModalButton>
+        </EditModalButton> */}
       </ButtonOverMouse>
       <div className="flex">
         <div className="flex   w-full">

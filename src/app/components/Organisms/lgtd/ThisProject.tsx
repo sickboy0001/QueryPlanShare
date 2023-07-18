@@ -99,17 +99,19 @@ export function ThisProject(props: Props) {
       onClick={() => onSelectProject(project.id)}
     >
       <ButtonOverMouse>
-        <EditModalButton
+        {/* <EditModalButton
           onSubmit={() => onSubmit()}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
+          // clickArchive={clickProjectArchive}
+          // clickDone={clickProjectDone}
         >
           <EditProject
             project={project}
             isOpen={isOpen}
             setIsOpen={setIsOpen}
           />
-        </EditModalButton>
+        </EditModalButton> */}
       </ButtonOverMouse>
 
       <div className="flex">

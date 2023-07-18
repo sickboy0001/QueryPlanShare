@@ -27,18 +27,65 @@ export const insertProject = async(user_id:string , title:string)=>{
         .from('projects')
         .insert([
             { user_id: user_id ,title: title},
+        ]).select()
+    return data
+}
+
+export const insertTask = async(user_id:string ,project_id:number, title:string | null)=>{
+    // const localDate = new Date(cur_date.toLocaleString());
+    console.log(`insertTask = async(user_id:${user_id} contents:${title})`)
+    const { data, error } = await supabase
+        .from('tasks')
+        .insert([
+        { user_id: user_id ,project_id: project_id ,title: title}
         ])
+        .select();
+
+
+        return data;
+
+}
+    //   taget_name TEXT  NOT NULL,
+    //   target_id  integer  NOT NULL,
+    //   target_id_order TEXT  NOT NULL,
+    
+export const selectTargetOrders = async(user_id:string , target_name : string , target_id :number)=>{
+
+    //select 
+    const { data, error }  = await supabase.from("target_orders").select("*")
+    .eq("user_id",user_id)
+    .eq("target_name",target_name)
+    .eq("target_id",target_id)
+
+    return data
+
+    
+}
+export const updateTargetOrders = async(user_id:string , target_name : string , target_id :number,target_id_order:string)=>{
+
+    //select 
+    const { data, error }  = await supabase.from("target_orders")
+    .update({ target_id_order: target_id_order })
+    .eq("user_id",user_id)
+    .eq("target_name",target_name)
+    .eq("target_id",target_id)
+    return data
+
+
+            
+}
+
+    export const insertTargetOrders = async(user_id:string , target_name : string , target_id :number,target_id_order:string)=>{
+        //select 
+        const { data, error }  = await supabase.from("target_orders")
+        .insert([{
+            user_id:user_id, target_name: target_name,target_id:target_id,target_id_order:target_id_order
+        }])
+        .select()
+        return data
     }
 
-    export const insertTask = async(user_id:string ,project_id:number, title:string | null)=>{
-        // const localDate = new Date(cur_date.toLocaleString());
-        console.log(`insertTask = async(user_id:${user_id} contents:${title})`)
-        const { data, error } = await supabase
-          .from('tasks')
-          .insert([
-            { user_id: user_id ,project_id: project_id ,title: title}
-          ])
-      }
+
     
 //     if (error) {
 //     // refresh tokenが無効な場合、エラーをログに記録し、ユーザーにログインしてもらうよう促します。

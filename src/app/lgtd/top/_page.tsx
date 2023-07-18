@@ -1,6 +1,6 @@
-"use client";
+"use Client";
 import React, { useEffect, useState } from "react";
-import Container from "@/app/components/Organisms/kanban/Kanban";
+import ProjectTasks from "@/app/components/Organisms/lgtd/projectTasks";
 
 import useStore from "@/store";
 import SubTitle from "@/app/components/Atoms/Lable/Title";
@@ -29,7 +29,7 @@ function GoodThings() {
     <section className="mb-2 w-full mx-auto">
       <SubTitle Title="Local Getting Things Done" Description=""></SubTitle>
       <div> {userId}</div>
-      <Container />
+      <ProjectTasks />
       {/* <Projects /> */}
     </section>
   );

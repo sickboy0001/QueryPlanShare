@@ -69,6 +69,13 @@ export function ThisTask(props: Props) {
     setIsWriteThing(false);
   }
 
+  const clickTaskArchive = (id: number) => {
+    console.log(`clickTaskArchive${id}`);
+  };
+  const clickTaskDone = (id: number) => {
+    console.log(`clickTaskDone${id}`);
+  };
+
   // console.log(props);
   return (
     <div
@@ -81,6 +88,8 @@ export function ThisTask(props: Props) {
           onSubmit={() => onSubmit()}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
+          clickArchive={clickTaskArchive(task.id)}
+          clickDone={clickTaskDone(task.id)}
         >
           {children}
           {/* <EditTask

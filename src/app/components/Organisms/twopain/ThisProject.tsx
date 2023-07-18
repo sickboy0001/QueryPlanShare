@@ -56,17 +56,18 @@ export function ThisProject(props: Props) {
     }
   }, [isWriteThing]);
 
+  const clickProjectArchive = (id: number) => {
+    console.log(`clickProjectArchive${id}`);
+  };
+  const clickProjectDone = (id: number) => {
+    console.log(`clickProjectDone${id}`);
+  };
+
   async function handleRegistMouseDown(): Promise<void> {
     // console.log("handleRegistMouseDown");
     console.log(`handleRegistMouseDown:${title} `);
 
     if (title === "") return;
-
-    //update data
-
-    // await updateThingGoodThing(id, value);
-    // let goodthings = await getAllGoodThings(userId);
-    // setGoodThings(goodthings);
 
     setTitle(title);
     setIsWriteThing(false);
@@ -91,6 +92,8 @@ export function ThisProject(props: Props) {
           onSubmit={() => onSubmit()}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
+          clickArchive={clickProjectArchive(project.id)}
+          clickDone={clickProjectDone(project.id)}
         >
           {children}
         </EditModalButton>
