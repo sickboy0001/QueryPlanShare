@@ -86,7 +86,38 @@ export const updateTargetOrders = async(user_id:string , target_name : string , 
     }
 
 
-    
+    export const updateTaskArchive = async(id :number,archive:boolean)=>{
+        const { data, error }  = await supabase.from("tasks")
+        .update({ is_archive: archive })
+        .eq("id",id)
+        return data
+    }
+        
+
+    export const updateTaskDone = async(id :number,done:boolean)=>{
+        const state = done?"done":"nodone"
+        const { data, error }  = await supabase.from("tasks")
+        .update({ state: state })
+        .eq("id",id)
+        return data
+    }
+
+    export const updateProjectArchive = async(id :number,archive:boolean)=>{
+        const { data, error }  = await supabase.from("projects")
+        .update({ is_archive: archive })
+        .eq("id",id)
+        return data
+    }
+        
+
+    export const updateProjectDone = async(id :number,done:boolean)=>{
+        const state = done?"done":"nodone"
+        const { data, error }  = await supabase.from("projects")
+        .update({ state: state })
+        .eq("id",id)
+        return data
+    }
+
 //     if (error) {
 //     // refresh tokenが無効な場合、エラーをログに記録し、ユーザーにログインしてもらうよう促します。
 //         console.error(error);

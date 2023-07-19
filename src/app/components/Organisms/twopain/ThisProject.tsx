@@ -12,6 +12,7 @@ import LabelItemSmall from "@/app/components/Atoms/Lable/LabelItemSmall";
 import LabelItemSub from "@/app/components/Atoms/Lable/LabelItemSmall";
 import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
 import InputText from "@/app/components/Atoms/Input/InputText";
+import { registProjectArchive, registProjectDone } from "@/app/bizlogic/lgtd";
 
 type Props = {
   project: typeproject;
@@ -57,10 +58,12 @@ export function ThisProject(props: Props) {
   }, [isWriteThing]);
 
   const clickProjectArchive = (id: number) => {
-    console.log(`clickProjectArchive${id}`);
+    console.log(`clickProjectArchive:${id}`);
+    registProjectArchive(id, true);
   };
   const clickProjectDone = (id: number) => {
-    console.log(`clickProjectDone${id}`);
+    console.log(`clickProjectDone:${id}`);
+    registProjectDone(id, true);
   };
 
   async function handleRegistMouseDown(): Promise<void> {
@@ -92,8 +95,8 @@ export function ThisProject(props: Props) {
           onSubmit={() => onSubmit()}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          clickArchive={clickProjectArchive(project.id)}
-          clickDone={clickProjectDone(project.id)}
+          clickArchive={() => clickProjectArchive(project.id)}
+          clickDone={() => clickProjectDone(project.id)}
         >
           {children}
         </EditModalButton>

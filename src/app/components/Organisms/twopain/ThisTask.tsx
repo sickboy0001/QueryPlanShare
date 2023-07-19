@@ -5,6 +5,8 @@ import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
 
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 
+import { registTaskArchive, registTaskDone } from "@/app/bizlogic/lgtd";
+
 // import EditTask from "./EditTask";
 import EditModalButton from "@/app/components/Molecules/EditModalButton";
 
@@ -71,9 +73,11 @@ export function ThisTask(props: Props) {
 
   const clickTaskArchive = (id: number) => {
     console.log(`clickTaskArchive${id}`);
+    registTaskArchive(id, true);
   };
   const clickTaskDone = (id: number) => {
     console.log(`clickTaskDone${id}`);
+    registTaskDone(id, true);
   };
 
   // console.log(props);
@@ -88,24 +92,14 @@ export function ThisTask(props: Props) {
           onSubmit={() => onSubmit()}
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          clickArchive={clickTaskArchive(task.id)}
-          clickDone={clickTaskDone(task.id)}
+          clickArchive={() => clickTaskArchive(task.id)}
+          clickDone={() => clickTaskDone(task.id)}
         >
           {children}
-          {/* <EditTask
-            task={task}
-            setTasks={setTasks}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            projects={projects}
-            setThisProjectId={setThisProjectId}
-          /> */}
         </EditModalButton>
       </ButtonOverMouse>
       <div className="flex">
         <div className="flex-none " {...attributes} {...listeners}>
-          {/* <ArrowsUpDownIcon className="inline-block w-5 h-5 mr-1" /> */}
-
           <svg
             className="inline-block w-5 h-5 mr-1"
             viewBox="0 0 20 20"
@@ -115,10 +109,6 @@ export function ThisTask(props: Props) {
           </svg>
         </div>
         <div className="flex   w-full">
-          {/* <ThisTaskToProject key={task.id} id={task.id}>
-            <ArrowSmallLeftIcon className="inline-block w-5 h-5 mr-1" />
-          </ThisTaskToProject> */}
-
           <div className="grow  ">
             {!isWriteThing ? (
               <LabelItemName>

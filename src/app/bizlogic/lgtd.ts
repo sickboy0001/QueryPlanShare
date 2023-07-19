@@ -1,7 +1,7 @@
 "use server";
 
 import { useEffect } from "react";
-import { insertProject, insertTargetOrders, insertTask, selectAllPorjects, selectTargetOrders, selectTasks, updateTargetOrders } from "../db/lgtd";
+import { insertProject, insertTargetOrders, insertTask, selectAllPorjects, selectTargetOrders, selectTasks, updateProjectArchive, updateProjectDone, updateTargetOrders ,updateTaskArchive, updateTaskDone} from "../db/lgtd";
 import { typeproject } from "../model/lgtd/projects.type";
 import { sampleProjects, sampleTasks } from "./SampleDatas";
 
@@ -117,6 +117,26 @@ export const registTargetOrders = async(user_id:string,targetName:string , targe
     }
 
 }
+
+export const registTaskArchive = async(id:number , archive:boolean)=>{
+    console.log(`registTaskArchive:id:${id} archive${archive}`)
+    updateTaskArchive(id,archive);
+}
+export const registTaskDone = async(id:number , done:boolean)=>{
+    console.log(`id:${id} archive${done}`)
+    updateTaskDone(id,done);
+}
+
+export const registProjectArchive = async(id:number , archive:boolean)=>{
+    console.log(`id:${id} archive${archive}`)
+    updateProjectArchive(id,archive);
+}
+export const registProjectDone = async(id:number , done:boolean)=>{
+    console.log(`id:${id} archive${done}`)
+    updateProjectDone(id,done);
+}
+
+
 
 const guest_user_id = process.env.NEXT_PUBLIC_GUEST_USER_ID as
   | string

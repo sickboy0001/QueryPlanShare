@@ -26,6 +26,9 @@ alter table profiles enable row level security;
 create policy "誰でも参照可能" on projects for select using (true);
 create policy "誰でも更新" on projects for update using (true);
 
+create trigger handle_target_orders_updated_at before update on projects
+  for each row execute procedure moddatetime (updated_at);
+
 -- tasks
 -- drop table tasks
 -- delete from tasks
@@ -47,6 +50,10 @@ CREATE TABLE tasks (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+create trigger handle_target_orders_updated_at before update on tasks
+  for each row execute procedure moddatetime (updated_at);
+
 
 -- target_orders
 -- drop table target_orders
