@@ -4,15 +4,15 @@ import { DocumentDuplicateIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 const Menu = [
+  // {
+  //   name: "iikoto-Mittu",
+  //   description: "毎晩寝る前に、1日で良かったことを3つ書く",
+  //   icon: DocumentDuplicateIcon,
+  //   href: "/iikotomittu/top",
+  // },
   {
-    name: "iikoto-Mittu",
-    description: "毎晩寝る前に、1日で良かったことを3つ書く",
-    icon: DocumentDuplicateIcon,
-    href: "/iikotomittu/top",
-  },
-  {
-    name: "Locat-GettingThingDoing",
-    description: "自分用TodoList",
+    name: "LGTD",
+    description: "自分用ToDoList : Locat-Getting-Thing-Doing",
     icon: DocumentDuplicateIcon,
     href: "/lgtd/twopain",
   },
@@ -23,15 +23,12 @@ const Start = () => {
   return (
     <div>
       <h1 className="text-3xl my-2 text-gray-800 font-bold md:text-4xl md:leading-tight lg:text-5xl lg:leading-tight ">
-        イイコトミッツ
+        QueryPlanShare
       </h1>
-      <h2 className="text-3xl my-2 text-gray-800 font-bold md:text-4xl md:leading-tight lg:text-5xl lg:leading-tight ">
-        iikoto-mittu
-      </h2>
       <div className="flex justify-center ">
         <div className="max-w-[60rem] p-4 rounded-t-xl bg-white border border-gray-200 shadow-sm rounded-xl ">
           <p className="text-left mt-1 text-base text-gray-600">
-            自分用のGTD、自分が使いやすいことを優先したものです。
+            QueryPlanShare
           </p>
         </div>
       </div>

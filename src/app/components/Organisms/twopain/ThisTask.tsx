@@ -1,7 +1,12 @@
 import { Dispatch, useEffect, useRef, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ArrowsUpDownIcon } from "@heroicons/react/24/outline";
+import {
+  ArrowsUpDownIcon,
+  ArrowRightCircleIcon,
+  CheckCircleIcon,
+  PauseCircleIcon,
+} from "@heroicons/react/24/outline";
 
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 
@@ -19,11 +24,12 @@ import { ButtonOverMouse } from "@/app/components/Atoms/Button/ButtonOverMouse";
 type Props = {
   task: typetask;
   thisProjectId: number;
+  setThisTasks: Dispatch<any>;
   children: any;
 };
 //orginal SortableTask
 export function ThisTask(props: Props) {
-  const { task, thisProjectId, children } = props;
+  const { task, thisProjectId, children, setThisTasks } = props;
 
   const [isOpen, setIsOpen] = useState(false);
   const [isWriteThing, setIsWriteThing] = useState<boolean>(false);
@@ -74,10 +80,12 @@ export function ThisTask(props: Props) {
   const clickTaskArchive = (id: number) => {
     console.log(`clickTaskArchive${id}`);
     registTaskArchive(id, true);
+    setThisTasks(thisProjectId);
   };
   const clickTaskDone = (id: number) => {
     console.log(`clickTaskDone${id}`);
     registTaskDone(id, true);
+    setThisTasks(thisProjectId);
   };
 
   // console.log(props);
@@ -108,7 +116,17 @@ export function ThisTask(props: Props) {
             <path d="M7 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 2zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 7 14zm6-8a2 2 0 1 0-.001-4.001A2 2 0 0 0 13 6zm0 2a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 8zm0 6a2 2 0 1 0 .001 4.001A2 2 0 0 0 13 14z"></path>
           </svg>
         </div>
-        <div className="flex   w-full">
+        <div className="flex">
+          <div className="grow pt-1 " onClick={() => clickTaskDone(task.id)}>
+            {task.state === "done" ? (
+              <CheckCircleIcon className="h-8 w-8 " />
+            ) : task.state === "doing" ? (
+              <ArrowRightCircleIcon className="h-8 w-8 " />
+            ) : (
+              <PauseCircleIcon className="h-8 w-8 " />
+            )}
+          </div>
+
           <div className="grow  ">
             {!isWriteThing ? (
               <LabelItemName>
@@ -128,10 +146,10 @@ export function ThisTask(props: Props) {
             )}
           </div>
         </div>
-        <div className="flex justify-end">
+        {/* <div className="flex justify-end">
           <LabelItemSmall>{task.state}</LabelItemSmall>
-          {/* <LabelItemSmall>{task.import}</LabelItemSmall> */}
-        </div>
+
+        </div> */}
       </div>
       <div className="flex text-left">
         <LabelItemSub>{task.detail}</LabelItemSub>

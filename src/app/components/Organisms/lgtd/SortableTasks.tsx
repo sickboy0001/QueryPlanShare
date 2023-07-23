@@ -1,14 +1,8 @@
 import React, { Dispatch } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import {
-  arrayMove,
-  rectSortingStrategy,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { SortableContext } from "@dnd-kit/sortable";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import LabelItemName from "../../Atoms/Lable/LabelItemName";
-import { ThisTask } from "./ThisTask";
+import { ThisTask } from "./_ThisTask";
 
 type Props = {
   selectedProject: typeproject | undefined;

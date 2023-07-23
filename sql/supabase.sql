@@ -47,9 +47,12 @@ CREATE TABLE tasks (
   state TEXT,
   type TEXT,
   review TEXT,
+    done_at date,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+-- ALTER TABLE tasks ADD COLUMN done_at date; 
 
 create trigger handle_target_orders_updated_at before update on tasks
   for each row execute procedure moddatetime (updated_at);

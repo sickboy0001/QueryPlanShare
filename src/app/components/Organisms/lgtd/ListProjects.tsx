@@ -1,9 +1,7 @@
 "user client";
 import React, { Dispatch, useEffect, useState } from "react";
-
 import SortableProjects from "./SortableProjects";
-
-import { NewProject } from "./NewProject";
+import { NewProject } from "./_NewProject";
 
 type Props = {
   projects: any;

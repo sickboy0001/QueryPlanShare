@@ -16,9 +16,11 @@ type Props = {
   projectId?: number;
   setTasks: Dispatch<any>;
   setSelectedProject: Dispatch<any>;
+  setThisTasks: Dispatch<any>;
 };
 export function NewTask(props: Props) {
-  const { userId, projectId, setTasks, setSelectedProject } = props;
+  const { userId, projectId, setTasks, setSelectedProject, setThisTasks } =
+    props;
   const [isNewThing, setIsNewThing] = useState(Boolean);
   const [title, setTitle] = useState("");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -50,9 +52,8 @@ export function NewTask(props: Props) {
 
     //todo　データ登録　読み取り
     const result = await addNewTask(userId, newProjectId, newTitle);
-    const newTasks = await getProjectTasks(userId, newProjectId);
-
-    setTasks(newTasks);
+    // const newTasks = await getProjectTasks(userId, newProjectId);
+    setThisTasks(newProjectId);
   }
 
   function handleBlur(): void {

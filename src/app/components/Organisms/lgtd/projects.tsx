@@ -1,7 +1,5 @@
 "user client";
 import React from "react";
-import Project from "./project";
-// import { sampleProjects } from "./SampleDatas";
 
 const Projects = (props: any) => {
   // const projects = sampleProjects;

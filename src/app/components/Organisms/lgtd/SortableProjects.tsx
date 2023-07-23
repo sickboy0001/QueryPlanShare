@@ -1,12 +1,7 @@
 import React, { Dispatch } from "react";
-import { DndContext, closestCenter, closestCorners } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
+import { arrayMove, SortableContext } from "@dnd-kit/sortable";
 import { typeproject } from "@/app/model/lgtd/projects.type";
-import { ThisProject } from "./ThisProject";
+import { ThisProject } from "./_ThisProject";
 
 type Props = {
   projects: typeproject[];

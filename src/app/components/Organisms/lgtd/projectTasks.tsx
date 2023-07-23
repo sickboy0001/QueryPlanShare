@@ -1,21 +1,14 @@
 "user client";
 import React, { useEffect, useState } from "react";
-import {
-  DndContext,
-  DragOverlay,
-  closestCenter,
-  pointerWithin,
-} from "@dnd-kit/core";
+import { DndContext } from "@dnd-kit/core";
 
-import { getAllPorjects, getProjectTasks } from "@/app/bizlogic/lgtd";
 import { typeproject, typetask } from "@/app/model/lgtd/projects.type";
 import { arrayMove } from "@dnd-kit/sortable";
-import { NewTask } from "./NewTask";
 import SortableTasks from "./SortableTasks";
 import SortableProjects from "./SortableProjects";
-import { NewProject } from "./NewProject";
 // import ParentComponent from "./SampleDnd3";
-import SampleDnd2 from "./SampleDnd2";
+import { NewTask } from "./_NewTask";
+import { NewProject } from "./_NewProject";
 
 const ProjectTasks = (props: any) => {
   const [userId, setUserId] = useState("");

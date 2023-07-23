@@ -5,9 +5,7 @@ import LabelItemSub from "../../Atoms/Lable/LabelItemSub";
 import LabelItemSmall from "../../Atoms/Lable/LabelItemSmall";
 import { LockOpenIcon, BookmarkSlashIcon } from "@heroicons/react/24/outline";
 import { typeproject } from "@/app/model/lgtd/projects.type";
-import EditModalButton from "@/app/components/Molecules/EditModalButton";
 import { ButtonOverMouse } from "../../Atoms/Button/ButtonOverMouse";
-import EditProject from "./EditProject";
 // import { ButtonToThing } from "@/app/components/Atoms/Button/ButtonToThing";
 
 type Props = {

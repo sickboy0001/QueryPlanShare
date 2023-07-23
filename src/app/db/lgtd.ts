@@ -1,6 +1,7 @@
 import { Database } from "@/lib/database.types";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
+import moment from 'moment'
 
 const supabase = createServerComponentClient<Database>({ cookies });
 
@@ -96,8 +97,9 @@ export const updateTargetOrders = async(user_id:string , target_name : string , 
 
     export const updateTaskDone = async(id :number,done:boolean)=>{
         const state = done?"done":"nodone"
+        const done_at = done?moment().format('YYYY-MM-DD'):""
         const { data, error }  = await supabase.from("tasks")
-        .update({ state: state })
+        .update({ state: state , done_at:done_at})
         .eq("id",id)
         return data
     }

@@ -69,25 +69,26 @@ export default function Twopain(props: Props) {
     getpProjects();
   }, [userId]);
 
+  const setThisTasks = async (projectid: number) => {
+    if (projectid >= 0) {
+      const newProject = projects.filter(
+        (project: any) => project.id === projectid
+      )[0];
+      setSelectedProject(newProject);
+      // console.log(projects.filter((project) => project.id === thisProjectId));
+
+      const Tasks = await getProjectTasks(userId, thisProjectId);
+      setTasks(Tasks);
+
+      // const thisproject = projects.filter(
+      //   (project) => project.id === thisProjectId
+      // )[0];
+      // setSelectedProject(thisproject);
+    }
+  };
+
   useEffect(() => {
-    const setThisTasks = async () => {
-      if (thisProjectId >= 0) {
-        const newProject = projects.filter(
-          (project: any) => project.id === thisProjectId
-        )[0];
-        setSelectedProject(newProject);
-        // console.log(projects.filter((project) => project.id === thisProjectId));
-
-        const Tasks = await getProjectTasks(userId, thisProjectId);
-        setTasks(Tasks);
-
-        // const thisproject = projects.filter(
-        //   (project) => project.id === thisProjectId
-        // )[0];
-        // setSelectedProject(thisproject);
-      }
-    };
-    setThisTasks();
+    setThisTasks(thisProjectId);
   }, [thisProjectId]);
 
   function handleDragEndTask(event: any) {
@@ -255,7 +256,11 @@ export default function Twopain(props: Props) {
                   >
                     {tasks.map((task: any) => (
                       <div key={task.id}>
-                        <ThisTask task={task} thisProjectId={thisProjectId}>
+                        <ThisTask
+                          task={task}
+                          thisProjectId={thisProjectId}
+                          setThisTasks={setThisTasks}
+                        >
                           <EditTask
                             task={task}
                             setTasks={setTasks}
@@ -273,6 +278,7 @@ export default function Twopain(props: Props) {
                     projectId={thisProjectId}
                     setTasks={setTasks}
                     setSelectedProject={setSelectedProject}
+                    setThisTasks={setThisTasks}
                   ></NewTask>
                 </div>
               ) : (
